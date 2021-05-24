@@ -11,5 +11,6 @@ G=nx.Graph()
 G.add_edges_from(E)
 nx.draw(G)
 
-G = nx.gnp_random_graph(100,0.3)
-result=OdC(G,normalisation = False)
+G = nx.gnm_random_graph(100,2500)
+result=OdC(G)
+nx.draw(G)

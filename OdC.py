@@ -22,23 +22,18 @@ def OdC(G,normalisation = True):
             if node_degree<=item:
                 degree_correlation[node_degree-1,item-1] +=1
                 
-    #Calculating the sum of each row
-    row_sum=[]
-    for i in range(max_degree):
-        row_sum.append(sum(degree_correlation[i]))
     #Calculating a_k
+    a_k=[]
     for i in range(max_degree):
-        if row_sum[i] != 0:
-            for j in range(max_degree):
-                degree_correlation[i][j]=degree_correlation[i][j]/row_sum[i]
+        a_k.append(sum(degree_correlation[i])-degree_correlation[i][i])
+    A = sum(a_k)
+    a_k = a_k/A
     
-    #Calculating entropy
+    #Calculating the complexity
     complexity = 0
-    for i in range(max_degree):
-        for j in range(max_degree):
-            complexity -=degree_correlation[i][j]*ln(degree_correlation[i][j])
-            
-        
+    for item in a_k:
+        complexity -= item*ln(item)
+    
     #Normalisation
     if normalisation == True:
         complexity = complexity/(ln(len(G.degree)-1))
