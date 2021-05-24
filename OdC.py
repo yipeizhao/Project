@@ -1,5 +1,5 @@
-import networkx as nx
 import numpy as np
+
 def OdC(G,normalisation = True):
     #Create a degree correlation matrix, using the max degree 
     degree_sequence = sorted([d for n, d in G.degree()], reverse=True)
