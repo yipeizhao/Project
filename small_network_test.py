@@ -1,6 +1,7 @@
 import networkx as nx
 from OdC import OdC
 import numpy as np
+from Cr import Cr
 import matplotlib.pyplot as plt
 n= 7
 m=np.linspace(1,20,19)
@@ -15,7 +16,7 @@ edge_number = []
 complexity = []
 for item in graph_list:
     edge_number.append(len(item.edges))
-    complexity.append(OdC(item))
+    complexity.append(Cr(item))
 
 clean_edge_number = []
 clean_complexity=[]

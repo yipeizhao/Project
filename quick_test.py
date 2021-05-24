@@ -1,5 +1,5 @@
 import networkx as nx
-from OdC import OdC
+from Cr import Cr
 import csv
 
 G = nx.Graph()
@@ -11,6 +11,6 @@ G=nx.Graph()
 G.add_edges_from(E)
 nx.draw(G)
 
-G = nx.gnm_random_graph(100,2500)
-result=OdC(G)
+# G = nx.gnm_random_graph(100,2500)
+result=Cr(G)
 nx.draw(G)
