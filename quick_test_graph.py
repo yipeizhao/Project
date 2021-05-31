@@ -4,7 +4,7 @@ from OdC import OdC
 import csv
 
 
-def quick_test(random = False, n = 15 , m =80):
+def quick_test_graph(random = False, n = 15 , m =80):
     if random == False:
         G = nx.Graph()
         f=open('edges.csv','r')
