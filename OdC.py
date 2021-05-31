@@ -25,9 +25,11 @@ def OdC(G,normalisation = True):
     #Calculating a_k
     a_k=[]
     for i in range(max_degree):
-        a_k.append(sum(degree_correlation[i])-degree_correlation[i][i])
+        a_k.append(sum(degree_correlation[i]))
     A = sum(a_k)
-    a_k = a_k/A
+    if A !=0:
+        for i in range(len(a_k)):
+            a_k[i]=a_k[i]/A
     
     #Calculating the complexity
     complexity = 0

@@ -4,7 +4,7 @@ import numpy as np
 from Cr import Cr
 import matplotlib.pyplot as plt
 n= 7
-m=np.linspace(1,20,19)
+m=np.linspace(1,21,21)
 graph_list = []
 for edge_number in m:
     edge_number = int(edge_number)
