@@ -6,9 +6,11 @@ def Cr(G,normalisation = True):
     adj_matrix = adj_matrix.todense()
     eigenvalues, eigenvectors = np.linalg.eig(adj_matrix)
     r = max(eigenvalues)
-    
+    r = r.real
     if normalisation == True:
         n = len(G.nodes)
-        c_r = (r - 2*cos(pi/(n+1)))/(n-1-2*cos(pi/(n+1)))
-        r = 4*c_r*(1-c_r)
-    return r
+        c_r_numerator = r-2 * cos(pi/(n+1))
+        c_r_denominator = n-1-2*cos(pi/(n+1))
+        c_r = c_r_numerator/c_r_denominator
+        Cr_complexity = 4*c_r(1-c_r)
+    return c_r
