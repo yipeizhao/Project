@@ -12,5 +12,7 @@ def Cr(G,normalisation = True):
         c_r_numerator = r-2 * cos(pi/(n+1))
         c_r_denominator = n-1-2*cos(pi/(n+1))
         c_r = c_r_numerator/c_r_denominator
-        Cr_complexity = 4*c_r(1-c_r)
-    return c_r
+        Cr_complexity = 4*c_r*(1-c_r)
+    else:
+        return r
+    return Cr_complexity
