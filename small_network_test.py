@@ -46,3 +46,5 @@ def ranking(vector):
     for i, x in enumerate(sorted(range(len(vector)), key=lambda y: vector[y])):
          output[x] = i
     return output
+
+
