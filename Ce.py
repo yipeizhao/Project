@@ -16,4 +16,6 @@ def Ce(G,normalisation = True):
             E_path = E_path + (n)/i
         E_path = E_path *2/((n)*(n-1))
     Ce = 4*(E-E_path)/(1-E_path)*(1- (E-E_path)/(1-E_path))
+    else:
+        return E
     return Ce
