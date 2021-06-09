@@ -13,7 +13,7 @@ def Ce(G,normalisation = True):
     if normalisation ==True:
         E_path = 0
         for i in range(1,n):
-            E_path = E_path + (n)/i
+            E_path = E_path + (n-i)/i
         E_path = E_path *2/((n)*(n-1))
         Ce = 4*(E-E_path)/(1-E_path)*(1- (E-E_path)/(1-E_path))
         return Ce

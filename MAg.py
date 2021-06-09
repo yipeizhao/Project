@@ -1,5 +1,5 @@
 from networkx import nx
-from math import log10
+from math import log
 def MAg(G,normalisation = True):
     if not nx.is_connected(G):
         return 0
@@ -14,15 +14,15 @@ def MAg(G,normalisation = True):
     I = 0
     for i in range(len(nodes)):
         for j in range(i+1,len(nodes)):
-            R = R + log10(node_degree[i]*node_degree[j])
-            I = I + log10(2*m/(node_degree[i]*node_degree[j]))
+            R = R + log(node_degree[i]*node_degree[j])
+            I = I + log(2*m/(node_degree[i]*node_degree[j]))
     
     R = R/m
     I = I/m
-    R_path = 2*(n-2)/(n-1)*log10(2)
-    I_path = log10(n-1)-(n-3)/(n-1)*log10(2)
-    R_clique = 2*log10(n-1)
-    I_clique = log10(n/(n-1))
+    R_path = 2*(n-2)/(n-1)*log(2)
+    I_path = log(n-1)-(n-3)/(n-1)*log(2)
+    R_clique = 2*log(n-1)
+    I_clique = log(n/(n-1))
     
     if normalisation == False:
         return (R-R_path)*(I-I_clique)
