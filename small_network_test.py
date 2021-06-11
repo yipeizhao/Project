@@ -1,6 +1,7 @@
 import networkx as nx
 from random import randint
 import pandas as pd
+import numpy as np
 
 def small_network_test(n=7,use_all_m = True,sample_number = 50):
     #Create a list of list to store all the graphs
@@ -27,39 +28,41 @@ def small_network_test(n=7,use_all_m = True,sample_number = 50):
             df[item] = zero_list 
     #Create graphs and store their information in the df
     
-    
+    count = 0
     if use_all_m == True:
-        count = 0
+        
         for i in range(m+1):
             for j in range(sample_number):
                 temp_graph = nx.gnm_random_graph(n,i)
-                graph_list.append(temp_graph)
-                df["Number_of_edges"][count] = i
-                df["Average_degree"][count] =  (2*i)/n
-                df["Average_clustering"][count] = nx.average_clustering(temp_graph)
                 if nx.is_connected(temp_graph):
+                    graph_list.append(temp_graph)
+                    df["Number_of_edges"][count] = i
+                    df["Average_degree"][count] =  (2*i)/n
+                    df["Average_clustering"][count] = nx.average_clustering(temp_graph)
                     df["Average_distance"][count] = nx.average_shortest_path_length(temp_graph)
-                else:
-                    df["Average_distance"][count] = float('nan')
-                count+=1
+                    count  +=1
 
     else:
         for i in range(sample_number):
             edge_number  = randint(0,m)
             temp_graph=nx.gnm_random_graph(n,edge_number)
-            graph_list.append(temp_graph)
-            df["Number_of_edges"][i] = edge_number
-            df["Average_degree"][i] =  (2*edge_number)/n
-            df["Average_clustering"][i] = nx.average_clustering(temp_graph)
             if nx.is_connected(temp_graph):
-                df["Average_distance"][i] = nx.average_shortest_path_length(temp_graph)
-            else:
-                df["Average_distance"][i] = float('nan')
-                
-                
+                graph_list.append(temp_graph)
+                df["Number_of_edges"][count] = edge_number
+                df["Average_degree"][count] =  (2*edge_number)/n
+                df["Average_clustering"][count] = nx.average_clustering(temp_graph)
+                df["Average_distance"][count] = nx.average_shortest_path_length(temp_graph)
+                count +=1
+    
+    
+    
     df["Average_degree_rank"]=ranking(df["Average_degree"])
     df["Average_distance_rank"]=ranking(df["Average_distance"])
     df["Average_clustering_rank"]=ranking(df["Average_clustering"])
+    
+    
+    drop_list = np.linspace(len(graph_list),len(df)-1,len(df)-len(graph_list))
+    df=df.drop(drop_list)
     
     #Small wrold property test
     for i in range(len(df)):
