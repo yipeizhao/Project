@@ -14,8 +14,7 @@ def small_network_test(n=7,use_all_m = True,sample_number = 50):
     #Create a df to store relevant information
     column_names = ["Number_of_edges","Average_degree","Average_degree_rank",
                     "Average_distance","Average_distance_rank",
-                    "Average_clustering","Average_clustering_rank",
-                    "Small_world"]
+                    "Average_clustering","Average_clustering_rank"]
     if use_all_m == True:
         zero_list = [float(0)]*(sample_number*(m+1))
         df = pd.DataFrame(columns = column_names)
@@ -63,11 +62,6 @@ def small_network_test(n=7,use_all_m = True,sample_number = 50):
     
     drop_list = np.linspace(len(graph_list),len(df)-1,len(df)-len(graph_list))
     df=df.drop(drop_list)
-    
-    #Small wrold property test
-    for i in range(len(df)):
-        if df["Average_distance_rank"][i]<(len(df)*0.3) and df["Average_clustering_rank"][i]>(len(df)*0.7):
-            df["Small_world"][i]=1
     
     return graph_list,df
 
