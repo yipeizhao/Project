@@ -18,7 +18,7 @@ graphs, df = small_network_test(n,use_all_m,sample)
 small_worlds_edge = []
 small_worlds_result = []
 for i in range(len(graphs)):
-   result.append(MAg(graphs[i],normalisation=normalisation))
+   result.append(Ce(graphs[i],normalisation=normalisation))
    if df["Small_world"][i]== 1:
        small_worlds_edge.append(df["Number_of_edges"][i])
        small_worlds_result.append(result[i])

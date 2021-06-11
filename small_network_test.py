@@ -12,9 +12,10 @@ def small_network_test(n=7,use_all_m = True,sample_number = 50):
     m = (n*(n-1))/2
     m = int(m)
     #Create a df to store relevant information
-    column_names = ["Number_of_edges","Average_degree","Average_degree_rank",
-                    "Average_distance","Average_distance_rank",
-                    "Average_clustering","Average_clustering_rank"]
+    column_names = ["Number_of_edges","Average_degree",
+                    "Average_distance",
+                    "Average_clustering",
+                    "Small_world"]
     if use_all_m == True:
         zero_list = [float(0)]*(sample_number*(m+1))
         df = pd.DataFrame(columns = column_names)
@@ -53,13 +54,6 @@ def small_network_test(n=7,use_all_m = True,sample_number = 50):
                 df["Average_distance"][count] = nx.average_shortest_path_length(temp_graph)
                 count +=1
     
-    
-    
-    df["Average_degree_rank"]=ranking(df["Average_degree"])
-    df["Average_distance_rank"]=ranking(df["Average_distance"])
-    df["Average_clustering_rank"]=ranking(df["Average_clustering"])
-    
-    
     drop_list = np.linspace(len(graph_list),len(df)-1,len(df)-len(graph_list))
     df=df.drop(drop_list)
     
@@ -68,13 +62,6 @@ def small_network_test(n=7,use_all_m = True,sample_number = 50):
 
 
 
-#Rank all values in a given vector 
-#Reference:
-#https://codereview.stackexchange.com/questions/65031/creating-a-list-containing-the-rank-of-the-elements-in-the-original-list
-def ranking(vector):
-    output = [0]*len(vector)
-    for i, x in enumerate(sorted(range(len(vector)), key=lambda y: vector[y])):
-         output[x] = i
-    return output
+
 
 
