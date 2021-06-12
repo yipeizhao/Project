@@ -1,6 +1,5 @@
 import numpy as np
 import networkx as nx
-import numpy as np
 from math import cos,pi
 
 def OdC(G,normalisation = True):
