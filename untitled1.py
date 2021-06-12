@@ -1,10 +1,9 @@
 from quick_test_graph import quick_test_graph
-from Ce import Ce
+
 from small_network_test import small_network_test
 import matplotlib.pyplot as plt
-from MAg import MAg
-from OdC import OdC
-from Cr import Cr
+import Complexity
+import small_world_property
 #Parameter
 normalisation = True
 n = 7
@@ -14,11 +13,11 @@ result=[]
 
 
 graphs, df = small_network_test(n,use_all_m,sample)
-
+df = small_world_property(df)
 small_worlds_edge = []
 small_worlds_result = []
 for i in range(len(graphs)):
-   result.append(Ce(graphs[i],normalisation=normalisation))
+   result.append(Complexity.Ce(graphs[i],normalisation=normalisation))
    if df["Small_world"][i]== 1:
        small_worlds_edge.append(df["Number_of_edges"][i])
        small_worlds_result.append(result[i])
