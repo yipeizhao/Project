@@ -1,10 +1,11 @@
 import networkx as nx
-from Cr import Cr
-from OdC import OdC
 import csv
 from random import randint
 import pandas as pd
 import numpy as np
+import collections
+from math import log2
+from scipy.stats import pearsonr
 
 def quick_test_graph(random = False, n = 15 , m =80):
     if random == False:
@@ -32,7 +33,7 @@ def small_network_test(n=7,use_all_m = True,sample_number = 50):
     column_names = ["Number_of_edges","Average_degree",
                     "Average_distance",
                     "Average_clustering",
-                    "Small_world"]
+                    "Small_world","Power_law"]
     if use_all_m == True:
         zero_list = [float(0)]*(sample_number*(m+1))
         df = pd.DataFrame(columns = column_names)
@@ -74,6 +75,9 @@ def small_network_test(n=7,use_all_m = True,sample_number = 50):
     drop_list = np.linspace(len(graph_list),len(df)-1,len(df)-len(graph_list))
     df=df.drop(drop_list)
     
+    for i in range(len(graph_list)):
+        if power_law_property(graph_list[i]):
+            df["Power_law"][i] = 1
     return graph_list,df
 
 
@@ -95,7 +99,27 @@ def small_world_property(df):
     return pd.concat(df_list)
        
         
-            
+
+def power_law_property(G):
+    degree_sequence = sorted([d for n, d in G.degree()], reverse=True)  # degree sequence
+    degreeCount = collections.Counter(degree_sequence)
+    deg, cnt = zip(*degreeCount.items())
+    deg = list(deg)
+    cnt = list(cnt)
+    log_deg = []
+    log_cnt = []
+    for item in deg:
+        log_deg.append(log2(item))
+    for item in cnt:
+        log_cnt.append(log2(item))
+    if len(log_cnt)>2:
+        corr,_ = pearsonr(log_deg,log_cnt)
+    else:
+        corr = 0
+    if abs(corr)>0.55:
+        return True
+    else:
+        return False        
     
 
 
