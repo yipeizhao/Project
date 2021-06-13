@@ -4,7 +4,7 @@ import Complexity
 
 #Parameter
 normalisation = True
-n = 15
+n = 8
 use_all_m = True
 sample = 100
 

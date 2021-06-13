@@ -102,7 +102,7 @@ def small_world_property(df):
         
 
 def power_law_property(G):
-    degree_sequence = sorted([d for n, d in G.degree()], reverse=True)  # degree sequence
+    degree_sequence = sorted([d for n, d in G.degree()], reverse=True)
     degreeCount = collections.Counter(degree_sequence)
     deg, cnt = zip(*degreeCount.items())
     deg = list(deg)
