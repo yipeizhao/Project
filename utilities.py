@@ -141,20 +141,18 @@ def number_of_ST(G):
     det = int(det)
     return det
 
-def isomorphic_graphs(G,edge_deletion = 1):
-    if edge_deletion == 1:
-        subgraphs = subgraph_one_edge_deletion(G)
-        ST_result = []
-        for graph in subgraphs:
-            ST_result.append(number_of_ST(graph))
-        unique_ST = []
-        unique_subgraphs = []
-        for i in range(len(subgraphs)):
-            if ST_result[i] not in unique_ST:
-                unique_subgraphs.append(subgraphs[i])
-                unique_ST.append(ST_result[i])
-        return unique_subgraphs
-
+def isomorphic_graphs(G):
+    subgraphs = subgraph_one_edge_deletion(G)
+    ST_result = []
+    for graph in subgraphs:
+        ST_result.append(number_of_ST(graph))
+    unique_ST = []
+    unique_subgraphs = []
+    for i in range(len(subgraphs)):
+        if ST_result[i] not in unique_ST:
+            unique_subgraphs.append(subgraphs[i])
+            unique_ST.append(ST_result[i])
+    return unique_subgraphs
 
 
 

@@ -1,10 +1,10 @@
 from utilities import random_networks,small_world_property
 import matplotlib.pyplot as plt
 import Complexity
-
+from C1espec import C1espec
 #Parameter
 normalisation = True
-n = 8
+n = 7
 use_all_m = True
 sample = 100
 
