@@ -4,9 +4,9 @@ import Complexity
 
 #Parameter
 normalisation = True
-n = 50
+n = 15
 use_all_m = True
-sample = 1000
+sample = 100
 
 result=[]
 graphs, df = random_networks(n,use_all_m,sample)
