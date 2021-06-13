@@ -1,22 +1,22 @@
-from utilities import small_network_test,small_world_property
+from utilities import random_networks,small_world_property
 import matplotlib.pyplot as plt
 import Complexity
 
 #Parameter
 normalisation = True
 n = 50
-use_all_m = False
-sample = 300
+use_all_m = True
+sample = 1000
 
 result=[]
-graphs, df = small_network_test(n,use_all_m,sample)
+graphs, df = random_networks(n,use_all_m,sample)
 df = small_world_property(df)
 small_worlds_edge = []
 small_worlds_result = []
 power_law_edge=[]
 power_law_result = []
 for i in range(len(graphs)):
-   result.append(Complexity.OdC(graphs[i],normalisation=normalisation))
+   result.append(Complexity.C1est(graphs[i],normalisation=normalisation))
    if df["Small_world"][i]== 1:
        small_worlds_edge.append(df["Number_of_edges"][i])
        small_worlds_result.append(result[i])
