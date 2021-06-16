@@ -4,9 +4,9 @@ import Complexity
 from C1espec import C1espec
 #Parameter
 normalisation = True
-n = 7
-use_all_m = True
-sample = 100
+n = 20
+use_all_m = False
+sample = 5000
 
 result=[]
 graphs, df = random_networks(n,use_all_m,sample)
@@ -16,7 +16,7 @@ small_worlds_result = []
 power_law_edge=[]
 power_law_result = []
 for i in range(len(graphs)):
-   result.append(Complexity.C1est(graphs[i],normalisation=normalisation))
+   result.append(Complexity.Ce(graphs[i],normalisation=normalisation))
    if df["Small_world"][i]== 1:
        small_worlds_edge.append(df["Number_of_edges"][i])
        small_worlds_result.append(result[i])

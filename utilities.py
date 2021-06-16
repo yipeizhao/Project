@@ -117,7 +117,7 @@ def power_law_property(G):
         corr,_ = pearsonr(log_deg,log_cnt)
     else:
         corr = 0
-    if abs(corr)>0.55:
+    if corr < -0.75:
         return True
     else:
         return False        
