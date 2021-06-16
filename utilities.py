@@ -1,5 +1,6 @@
 import networkx as nx
 import csv
+import random
 from random import randint
 import pandas as pd
 import numpy as np
@@ -155,4 +156,20 @@ def isomorphic_graphs(G):
     return unique_subgraphs
 
 
+def BA_random_graphs(n,sample_number):
+    graphs = []
+    number_of_edges = []
+    for i in range(sample_number):
+        m=randint(1,n-1)
+        temp_graph = nx.barabasi_albert_graph(n,m)
+        if nx.is_connected(temp_graph):
+            graphs.append(temp_graph)
+    return graphs
 
+def WS_random_graphs(n,sample_number):
+    graphs = []
+    for i in range(sample_number):
+        p= random.uniform(0.001,0.1)
+        k= random.randint(2,n)
+        graphs.append(nx.watts_strogatz_graph(n,k,p))
+    return graphs
