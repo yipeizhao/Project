@@ -12,8 +12,11 @@ def C1espec(G,normalisation =True):
         L = L + A + A
         eig_values,_ = eig(L)
         spectra.append(max(eig_values.real))
-                    
-    N1espec = len(set(spectra))
+    rounded_spectra = []
+    for item in spectra:
+        rounded_spectra.append(round(item,10))
+        
+    N1espec = len(set(rounded_spectra))
     if normalisation == False:
         return N1espec
     else:
