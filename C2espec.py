@@ -1,9 +1,11 @@
-from utilities import subgraph_one_edge_deletion
+from subgraph_two_edge_deletion import subgraph_two_edge_deletion
 from scipy.linalg import eig
 import networkx as nx
+import utilities
+from math import comb
 
-def C1espec(G,normalisation =True):
-    subgraphs = subgraph_one_edge_deletion(G)
+def C2espec(G,normalisation =True):
+    subgraphs = subgraph_two_edge_deletion(G)
     spectra = []
     mcu = len(G.nodes())**1.68-10
     for i in range(len(subgraphs)):
@@ -16,8 +18,8 @@ def C1espec(G,normalisation =True):
     for item in spectra:
         rounded_spectra.append(round(item,10))
         
-    N1espec = len(set(rounded_spectra))
+    N2espec = len(set(rounded_spectra))
     if normalisation == False:
-        return N1espec
+        return N2espec
     else:
-        return (N1espec-1)/(mcu-1)
+        return (N2espec-1)/(comb(mcu,2)-1)

@@ -6,8 +6,8 @@ from C1espec import C1espec
 normalisation = True
 n = 7
 use_all_m = True
-sample = 50
-method = "C1espec"
+sample = 40
+method = "C2espec"
 measure_method = getattr(Complexity,method)
 
 
