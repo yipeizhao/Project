@@ -4,10 +4,10 @@ import Complexity
 
 #Parameter
 normalisation = True
-n = 20
-use_all_m = False
-sample = 400
-method = "C1est"
+n = 7
+use_all_m = True
+sample = 10
+method = "Cr"
 measure_method = getattr(Complexity,method)
 
 
@@ -26,6 +26,8 @@ for i in range(len(graphs)):
    if df["Power_law"][i] == 1:
        power_law_edge.append(df["Number_of_edges"][i])
        power_law_result.append(result[i])
+df = df.sort_index()
+df["Complexity"] = result
 plt.scatter(df["Number_of_edges"],result,marker = 'x',color = 'black',alpha = 0.7,label = "Normal")
 #plt.scatter(small_worlds_edge,small_worlds_result,marker = 'o',color = 'red',label = "Small world")
 #plt.scatter(power_law_edge,power_law_result,color = 'blue',label = "Power law")

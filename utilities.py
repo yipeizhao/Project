@@ -77,7 +77,7 @@ def random_networks(n=7,use_all_m = True,sample_number = 50):
     
     drop_list = np.linspace(len(graph_list),len(df)-1,len(df)-len(graph_list))
     df=df.drop(drop_list)
-    
+    df = df.sort_index()
     for i in range(len(graph_list)):
         if power_law_property(graph_list[i]):
             df["Power_law"][i] = 1
