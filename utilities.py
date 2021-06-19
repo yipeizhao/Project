@@ -9,7 +9,7 @@ from math import log2
 from scipy.stats import pearsonr
 import scipy
 from itertools import combinations_with_replacement
-
+import math
 def quick_test_graph(random = False, n = 15 , m =80):
     if random == False:
         G = nx.Graph()
@@ -139,7 +139,8 @@ def number_of_ST(G):
     remove_i = randint(0,L.shape[0]-1)
     L = np.delete(L,remove_i,0)
     L = np.delete(L,remove_i,1)
-    det = scipy.linalg.det(L)
+    sign ,det = np.linalg.slogdet(L)
+    det = sign * math.exp(det)
     det = int(det)
     return det
 
@@ -150,8 +151,9 @@ def isomorphic_graphs(G):
         ST_result.append(number_of_ST(graph))
     unique_ST = []
     unique_subgraphs = []
+    ST_result = [str(item)[:10] for item in ST_result]
     for i in range(len(subgraphs)):
-        if int(ST_result[i]) not in unique_ST:
+        if ST_result[i] not in unique_ST:
             unique_subgraphs.append(subgraphs[i])
             unique_ST.append(ST_result[i])
     return unique_ST

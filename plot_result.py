@@ -1,7 +1,7 @@
 from utilities import random_networks,small_world_property,BA_random_graphs,WS_random_graphs,NS_random_graphs
 import matplotlib.pyplot as plt
 import Complexity
-from C1espec import C1espec
+
 #Parameter
 normalisation = True
 n = 20
