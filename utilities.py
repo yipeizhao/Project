@@ -154,7 +154,7 @@ def isomorphic_graphs(G):
         if int(ST_result[i]) not in unique_ST:
             unique_subgraphs.append(subgraphs[i])
             unique_ST.append(ST_result[i])
-    return unique_subgraphs
+    return unique_ST
 
 
 def BA_random_graphs(n,sample_number):
@@ -201,3 +201,11 @@ def subgraph_two_edge_deletion(G):
         subgraphs.append(temp_graph)
         
     return subgraphs
+
+def NS_random_graphs(n,sample_number):
+    graphs = []
+    for i in range(sample_number):
+        p= random.uniform(0.001,0.1)
+        k= random.randint(2,n)
+        graphs.append(nx.newman_watts_strogatz_graph(n,k,p))
+    return graphs
