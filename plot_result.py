@@ -4,10 +4,10 @@ import Complexity
 from C1espec import C1espec
 #Parameter
 normalisation = True
-n = 7
-use_all_m = True
-sample = 40
-method = "C2espec"
+n = 20
+use_all_m = False
+sample = 400
+method = "C1est"
 measure_method = getattr(Complexity,method)
 
 
@@ -28,7 +28,7 @@ for i in range(len(graphs)):
        power_law_result.append(result[i])
 plt.scatter(df["Number_of_edges"],result,marker = 'x',color = 'black',alpha = 0.7,label = "Normal")
 #plt.scatter(small_worlds_edge,small_worlds_result,marker = 'o',color = 'red',label = "Small world")
-plt.scatter(power_law_edge,power_law_result,color = 'blue',label = "Power law")
+#plt.scatter(power_law_edge,power_law_result,color = 'blue',label = "Power law")
 
 # BA_graphs = BA_random_graphs(n,sample)
 # BA_edges = []
@@ -46,5 +46,5 @@ plt.scatter(power_law_edge,power_law_result,color = 'blue',label = "Power law")
 #     WS_result.append(measure_method(WS_graphs[i]))
 # plt.scatter(WS_edges,WS_result,marker = 'o',color = 'green',label='WS graphs')
 
-plt.title("n="+str(n))
+plt.title(method + "n="+str(n))
 plt.legend()

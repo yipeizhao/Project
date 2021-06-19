@@ -1,34 +1,23 @@
-from networkx import nx
-from math import log
-def MAg(G,normalisation = True):
-    if not nx.is_connected(G):
-        return 0
-    nodes = list(G.nodes)
-    node_degree = []
-    for node in nodes:
-        node_degree.append(G.degree(node))
-    
-    m = sum(node_degree)/2
-    n = len(nodes)
+from math import log10
+def MAg(G):
+    degree_view = list(G.degree)
+    degree_list =[node[1] for node in degree_view]
+    n = len(degree_list)
+    m = len(G.edges)
     R = 0
     I = 0
-    for i in range(len(nodes)):
-        for j in range(i+1,len(nodes)):
-            R = R + log(node_degree[i]*node_degree[j])
-            I = I + log(2*m/(node_degree[i]*node_degree[j]))
-    
-    R = R/m
-    I = I/m
-    R_path = 2*(n-2)/(n-1)*log(2)
-    I_path = log(n-1)-(n-3)/(n-1)*log(2)
-    R_clique = 2*log(n-1)
-    I_clique = log(n/(n-1))
-    
-    if normalisation == False:
-        return (R-R_path)*(I-I_clique)
-    else:
-        MA_R = 4*((R-R_path)/(R_clique-R_path))*(1-(R-R_path)/(R_clique-R_path))
-        MA_I = 4*((I-I_clique)/(I_path-I_clique))*(1-(I-I_clique)/(I_path-I_clique))
-        return MA_R*MA_I
-
-
+    for i in range(n):
+        for j in range(i+1,n):
+            R = R + log10(degree_list[i]*degree_list[j])
+            I = I + log10((2*m)/(degree_list[i]*degree_list[j]))
+    R = R / m
+    I = I / m
+    R_c = 2*log10(n-1)
+    R_p = 2*((n-2)/(n-1))*log10(2)
+    I_c = log10(n/(n-1))
+    I_p = log10(n-1)-((n-3)/(n-1))*log10(2)
+    MA_R = 4*((R-R_p)/(R_c-R_p))*(1-(R-R_p)/(R_c-R_p))
+    MA_I = 4*((I-I_p)/(I_p-I_c))*(1-(I-I_p)/(I_p-I_c))
+        
+        
+    return MA_R*MA_I

@@ -151,7 +151,7 @@ def isomorphic_graphs(G):
     unique_ST = []
     unique_subgraphs = []
     for i in range(len(subgraphs)):
-        if ST_result[i] not in unique_ST:
+        if int(ST_result[i]) not in unique_ST:
             unique_subgraphs.append(subgraphs[i])
             unique_ST.append(ST_result[i])
     return unique_subgraphs
@@ -159,7 +159,6 @@ def isomorphic_graphs(G):
 
 def BA_random_graphs(n,sample_number):
     graphs = []
-    number_of_edges = []
     for i in range(sample_number):
         m=randint(1,n-1)
         temp_graph = nx.barabasi_albert_graph(n,m)
