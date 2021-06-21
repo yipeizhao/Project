@@ -115,7 +115,7 @@ def C1espec(G,normalisation =True):
         spectra.append(max(eig_values.real))
     rounded_spectra = []
     for item in spectra:
-        rounded_spectra.append(round(item,10))
+        rounded_spectra.append(round(item,7))
         
     N1espec = len(set(rounded_spectra))
     if normalisation == False:
@@ -135,7 +135,7 @@ def C2espec(G,normalisation =True):
         spectra.append(max(eig_values.real))
     rounded_spectra = []
     for item in spectra:
-        rounded_spectra.append(round(item,10))
+        rounded_spectra.append(round(item,7))
         
     N2espec = len(set(rounded_spectra))
     if normalisation == False:
