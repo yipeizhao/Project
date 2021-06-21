@@ -4,10 +4,10 @@ import Complexity
 
 #Parameter
 normalisation = True
-n = 20
-use_all_m = False
-sample = 300
-method = "Ce"
+n = 7
+use_all_m = True
+sample = 50
+method = "C2espec"
 measure_method = getattr(Complexity,method)
 
 
