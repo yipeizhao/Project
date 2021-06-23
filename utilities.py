@@ -216,7 +216,7 @@ def WS_random_graphs(n,sample_number):
     return graphs
 
 #   Generates a list of NS random graphs
-def NS_random_graphs(n,sample_number):
+def NW_random_graphs(n,sample_number):
     graphs = []
     for i in range(sample_number):
         p= random.uniform(0.001,0.1)
