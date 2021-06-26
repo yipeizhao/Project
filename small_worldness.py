@@ -8,7 +8,7 @@ import Complexity as cx
 n = 50
 use_all_m = False
 sample_number = 500
-method = "Ce"
+method = "Cr"
 measure_method = getattr(cx,method)
 
 #   Generating random graphs
