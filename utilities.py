@@ -130,7 +130,7 @@ def small_world_property(G):
 #   a power law distribution.
 #   To achieve this, both degree and count will be log,
 #   if they have a correlation that is < -0.75, we suggest it is scale free
-def power_law_property(G):
+def power_law_property1(G):
     degree_sequence = sorted([d for n, d in G.degree()], reverse=True)
     degreeCount = collections.Counter(degree_sequence)
     deg, cnt = zip(*degreeCount.items())
@@ -151,6 +151,28 @@ def power_law_property(G):
     else:
         return False        
 
+def power_law_property(G):
+    degree_sequence = sorted([d for n, d in G.degree()], reverse=True)
+    degreeCount = collections.Counter(degree_sequence)
+    deg, cnt = zip(*degreeCount.items())
+    deg = list(deg)
+    cnt = list(cnt)
+    log_deg = [log(item) for item in deg]
+    cu_cnt = [0]*len(cnt)
+    for i in range(len(cnt)):
+        if i == 0:
+            cu_cnt[0]=cnt[0]
+        else:
+            cu_cnt[i]=cu_cnt[i-1]+cnt[i]
+    log_cu_cnt = [log(item) for item in cu_cnt]
+    if len(log_cu_cnt)<5:
+        corr = 0
+    else:
+        corr,_ = pearsonr(log_deg,log_cu_cnt)
+    if corr < -0.9:
+        return True
+    else:
+        return False
 
 #   Return a list of subgraphs of the graph G by taking an edge off the graph
 #   Number of returned subgraphs = m

@@ -6,7 +6,7 @@ import Complexity
 normalisation = True
 n = 20
 use_all_m = False
-sample = 750
+sample = 500
 method1 = "Cr"
 measure_method1 = getattr(Complexity,method1)
 # method2 = "OdC"
@@ -24,9 +24,9 @@ for i in range(len(graphs)):
    # if df["Small_world"][i]== 1:
    #     small_worlds_edge.append(df["Number_of_edges"][i])
    #     small_worlds_result.append(result[i])
-   # if df["Power_law"][i] == 1:
-   #     power_law_edge.append(df["Number_of_edges"][i])
-   #     power_law_result.append(result[i])
+   if df["Power_law"][i] == 1:
+       power_law_edge.append(df["Number_of_edges"][i])
+       power_law_result.append(result1[i])
 # for i in range(len(graphs)):
 #     result2.append(measure_method2(graphs[i],normalisation=normalisation))
 
@@ -35,7 +35,7 @@ df["Complexity"] = result1
 plt.scatter(df["Number_of_edges"],result1,marker = 'x',color = 'black',alpha = 0.7,label = "Random graphs")
 
 # plt.scatter(small_worlds_edge,small_worlds_result,marker = 'o',color = 'red',label = "Small world")
-# plt.scatter(power_law_edge,power_law_result,color = 'blue',label = "Power law")
+plt.scatter(power_law_edge,power_law_result,color = 'blue',label = "Power law")
 
 # BA_graphs = BA_random_graphs(n,int(len(graphs)/5))
 # BA_edges = []
