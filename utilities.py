@@ -152,7 +152,7 @@ def power_law_property1(G):
         return False        
 
 def power_law_property(G):
-    degree_sequence = sorted([d for n, d in G.degree()], reverse=True)
+    degree_sequence = sorted([d for n, d in G.degree()],reverse = True)
     degreeCount = collections.Counter(degree_sequence)
     deg, cnt = zip(*degreeCount.items())
     deg = list(deg)
@@ -165,11 +165,11 @@ def power_law_property(G):
         else:
             cu_cnt[i]=cu_cnt[i-1]+cnt[i]
     log_cu_cnt = [log(item) for item in cu_cnt]
-    if len(log_cu_cnt)<5:
-        corr = 0
-    else:
+    if len(log_deg)>3:
         corr,_ = pearsonr(log_deg,log_cu_cnt)
-    if corr < -0.9:
+    else:
+        corr = 0
+    if corr < -0.93:
         return True
     else:
         return False

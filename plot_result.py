@@ -6,8 +6,8 @@ import Complexity
 normalisation = True
 n = 20
 use_all_m = False
-sample = 500
-method1 = "Cr"
+sample = 750
+method1 = "Ce"
 measure_method1 = getattr(Complexity,method1)
 # method2 = "OdC"
 # measure_method2 = getattr(Complexity,method2)
@@ -21,13 +21,15 @@ power_law_result = []
 
 for i in range(len(graphs)):
    result1.append(measure_method1(graphs[i],normalisation=normalisation))
-   # if df["Small_world"][i]== 1:
-   #     small_worlds_edge.append(df["Number_of_edges"][i])
-   #     small_worlds_result.append(result[i])
+#    if df["Small_world"][i]== 1:
+#        small_worlds_edge.append(df["Number_of_edges"][i])
+#        small_worlds_result.append(result1[i])
+
    if df["Power_law"][i] == 1:
        power_law_edge.append(df["Number_of_edges"][i])
        power_law_result.append(result1[i])
-# for i in range(len(graphs)):
+
+# # for i in range(len(graphs)):
 #     result2.append(measure_method2(graphs[i],normalisation=normalisation))
 
 df = df.sort_index()

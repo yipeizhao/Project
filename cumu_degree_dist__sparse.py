@@ -2,9 +2,10 @@ import networkx as nx
 from math import log
 import collections
 import matplotlib.pyplot as plt
+from scipy.stats import pearsonr
 G = nx.barabasi_albert_graph(1000,5)
 
-degree_sequence = sorted([d for n, d in G.degree()])
+degree_sequence = sorted([d for n, d in G.degree()],reverse = True)
 degreeCount = collections.Counter(degree_sequence)
 deg, cnt = zip(*degreeCount.items())
 deg = list(deg)
@@ -17,7 +18,7 @@ for i in range(len(cnt)):
     else:
         cu_cnt[i]=cu_cnt[i-1]+cnt[i]
 log_cu_cnt = [log(item) for item in cu_cnt]
-
-plt.plot(deg,cu_cnt)
+corr,_ = pearsonr(log_deg,log_cu_cnt)
+plt.bar(deg,cu_cnt)
 plt.figure()
 plt.scatter(deg,log_cu_cnt)
