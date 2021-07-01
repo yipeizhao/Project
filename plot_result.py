@@ -4,9 +4,9 @@ import Complexity
 
 #Parameter
 normalisation = True
-n = 20
+n = 30
 use_all_m = False
-sample = 750
+sample = 350
 method1 = "Ce"
 measure_method1 = getattr(Complexity,method1)
 # method2 = "OdC"

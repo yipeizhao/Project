@@ -11,7 +11,7 @@ import scipy
 from itertools import combinations_with_replacement
 import math
 from math import log
-
+from scale_free_test import scale_free_test
 
 #Generates a small network for testing
 #If random == false, a recorded 15 nodes, 16 edges connected, undirected graph will be used
@@ -98,7 +98,7 @@ def random_networks(n=7,use_all_m = True,sample_number = 50):
     
     #   To determine whether the graphs have scale-free or small world property
     for i in range(len(graph_list)):
-        if power_law_property(graph_list[i]):
+        if scale_free_test(graph_list[i]):
             df["Power_law"][i] = 1
         if small_world_property(graph_list[i]):
             df["Small_world"][i] = 1
