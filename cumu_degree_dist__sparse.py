@@ -3,7 +3,8 @@ from math import log
 import collections
 import matplotlib.pyplot as plt
 from scipy.stats import pearsonr
-G = nx.barabasi_albert_graph(1000,5)
+import powerlaw
+G = nx.barabasi_albert_graph(100,3)
 
 degree_sequence = sorted([d for n, d in G.degree()],reverse = True)
 degreeCount = collections.Counter(degree_sequence)
@@ -21,4 +22,4 @@ log_cu_cnt = [log(item) for item in cu_cnt]
 corr,_ = pearsonr(log_deg,log_cu_cnt)
 plt.bar(deg,cu_cnt)
 plt.figure()
-plt.scatter(deg,log_cu_cnt)
+plt.scatter(log_deg,log_cu_cnt)

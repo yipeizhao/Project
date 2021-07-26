@@ -98,7 +98,7 @@ def random_networks(n=7,use_all_m = True,sample_number = 50):
     
     #   To determine whether the graphs have scale-free or small world property
     for i in range(len(graph_list)):
-        if scale_free_test(graph_list[i]):
+        if power_law_property(graph_list[i]):
             df["Power_law"][i] = 1
         if small_world_property(graph_list[i]):
             df["Small_world"][i] = 1
@@ -129,28 +129,7 @@ def small_world_property(G):
 #   Scale free network implies the network's degree distribution follows 
 #   a power law distribution.
 #   To achieve this, both degree and count will be log,
-#   if they have a correlation that is < -0.75, we suggest it is scale free
-def power_law_property1(G):
-    degree_sequence = sorted([d for n, d in G.degree()], reverse=True)
-    degreeCount = collections.Counter(degree_sequence)
-    deg, cnt = zip(*degreeCount.items())
-    deg = list(deg)
-    cnt = list(cnt)
-    log_deg = []
-    log_cnt = []
-    for item in deg:
-        log_deg.append(log2(item))
-    for item in cnt:
-        log_cnt.append(log2(item))
-    if len(log_cnt)>2:
-        corr,_ = pearsonr(log_deg,log_cnt)
-    else:
-        corr = 0
-    if corr < -0.75:
-        return True
-    else:
-        return False        
-
+#   if they have a correlation that is < -0.9, we suggest it is scale free
 def power_law_property(G):
     degree_sequence = sorted([d for n, d in G.degree()],reverse = True)
     degreeCount = collections.Counter(degree_sequence)
@@ -164,8 +143,10 @@ def power_law_property(G):
             cu_cnt[0]=cnt[0]
         else:
             cu_cnt[i]=cu_cnt[i-1]+cnt[i]
+    cu_cnt = [item/sum(cu_cnt) for item in cu_cnt]
     log_cu_cnt = [log(item) for item in cu_cnt]
-    if len(log_deg)>3:
+    
+    if len(log_deg)>4:
         corr,_ = pearsonr(log_deg,log_cu_cnt)
     else:
         corr = 0
@@ -274,3 +255,22 @@ def subgraph_two_edge_deletion(G):
         temp_graph.remove_edge(edge2_loc[0],edge2_loc[1])
         subgraphs.append(temp_graph)
     return subgraphs
+
+def empty_check(G):
+    if len(G.nodes) == 0 or len(G.edges)==0:
+        return True
+    else:
+        return False
+
+def df_to_network(df):
+    source = [row[0] for index,row in df.iterrows()]
+    target = [row[1] for index,row in df.iterrows()]
+    G = nx.Graph()
+    [G.add_edge(item1,item2) for item1,item2 in zip(source,target)]
+    return G
+
+#Finding the giant component of a network
+def gcc(G):
+    Gcc = sorted(nx.connected_components(G), key=len, reverse=True)
+    G0 = G.subgraph(Gcc[0])
+    return G0
