@@ -21,13 +21,13 @@ cx = source_python("Ce.py")
 cx = source_python("OdC.py")
 
 #Building the network in python
-n = 1000
+n = 100
 gamma = 3
-gamma_list = seq(gamma-0.7,gamma+0.9,0.1)
+gamma_list = seq(gamma-0.3,gamma+0.3,0.01)
 results = list()
 graphs = list()
 for(i in gamma_list){
-  print(i)
+  #print(i)
   series = power_law_series(n,i)
   if(sum(series)%%2 !=0){
     series[1]=series[1]+1
