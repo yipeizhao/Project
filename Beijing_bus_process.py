@@ -33,10 +33,17 @@ for lines in lines_list_seperate:
         for first, second in zip(lines["Stop_ID"], lines["Stop_ID"][1:]):
             G.add_edge(first,second)
 
+edges = list(G.edges())
+source = [item[0] for item in edges]
+target = [item[1] for item in edges]
+data = {"source" : source,"target" : target}
+processed_beijing_bus = pd.DataFrame(data = data)
+processed_beijing_bus.to_csv("bus/processed/beijing.csv")
+
 Gcc = ut.gcc(G)
 edges = list(Gcc.edges())
 source = [item[0] for item in edges]
 target = [item[1] for item in edges]
 data = {"source" : source,"target" : target}
-processed_beijing_bus = pd.DataFrame(data = data)
-processed_beijing_bus.to_csv("processsed_networks/beijing_bus_simple.csv",index= False)
+processed_beijing_bus_simple = pd.DataFrame(data = data)
+processed_beijing_bus_simple.to_csv("processed_networks/beijing_bus_simple.csv",index= False)
