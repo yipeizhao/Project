@@ -5,14 +5,15 @@ from random import randint
 import pandas as pd
 import numpy as np
 import collections
-from math import log2
+
 from scipy.stats import pearsonr
-import scipy
+
 from itertools import combinations_with_replacement
 import math
 from math import log
-from scale_free_test import scale_free_test
 
+import matplotlib.pyplot as plt
+import igraph as ig
 #Generates a small network for testing
 #If random == false, a recorded 15 nodes, 16 edges connected, undirected graph will be used
 #Else, a random gnm graph will be generated using the given parameters n/m
@@ -256,12 +257,16 @@ def subgraph_two_edge_deletion(G):
         subgraphs.append(temp_graph)
     return subgraphs
 
+#Check whether a network is empty(no edges)
 def empty_check(G):
     if len(G.nodes) == 0 or len(G.edges)==0:
         return True
     else:
         return False
 
+#Convert a dataframe to a network
+#The data frame must follow the rule:
+#Row 1 = source;target
 def df_to_network(df):
     source = [row[0] for index,row in df.iterrows()]
     target = [row[1] for index,row in df.iterrows()]
@@ -274,3 +279,13 @@ def gcc(G):
     Gcc = sorted(nx.connected_components(G), key=len, reverse=True)
     G0 = G.subgraph(Gcc[0])
     return G0
+
+#Plotting the degree distribution of a graph
+def plot_deg_dist(G):
+    degree_sequence = sorted([d for n, d in G.degree()],reverse = True)
+    degreeCount = collections.Counter(degree_sequence)
+    deg, cnt = zip(*degreeCount.items())
+    deg = list(deg)
+    cnt = list(cnt)
+    plt.bar(deg,cnt)
+    return 0

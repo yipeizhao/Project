@@ -29,21 +29,21 @@ for key,val in network_df.items():
 
 distance = [3.10784,6.27591,18.37129,6.58113,4.66837]
 clustering = [nx.average_clustering(g) for g in networks]
-ratio = [c/l for c,l in zip(clustering,distance)]
-complexities = [cx.OdC(g) for g in networks]
+ratio1 = [c/l for c,l in zip(clustering,distance)]
+complexities1 = [cx.Ce(g) for g in networks]
 colors = ["red","blue","orange","black","green"]
-for i in range(len(complexities)):
-    plt.scatter(complexities[i],ratio[i],color = colors[i],marker = "x")
+for i in range(len(complexities1)):
+    plt.scatter(complexities1[i],ratio1[i],color = colors[i],marker = "x")
 
 
-deg_list = [];cnt_list = []
-for G in networks:
-    degree_sequence = sorted([d for n, d in G.degree()], reverse=True)  # degree sequence
-    degreeCount = collections.Counter(degree_sequence)
-    deg, cnt = zip(*degreeCount.items())
-    deg_list.append(deg)
-    cnt_list.append(cnt)
-plt.figure()
-for i in range(len(deg_list)):
-    plt.scatter(deg_list[i],cnt_list[i],color = colors[i],
-                label = list(network_df.keys())[i])
+# deg_list = [];cnt_list = []
+# for G in networks:
+#     degree_sequence = sorted([d for n, d in G.degree()], reverse=True)  # degree sequence
+#     degreeCount = collections.Counter(degree_sequence)
+#     deg, cnt = zip(*degreeCount.items())
+#     deg_list.append(deg)
+#     cnt_list.append(cnt)
+# plt.figure()
+# for i in range(len(deg_list)):
+#     plt.scatter(deg_list[i],cnt_list[i],color = colors[i],
+#                 label = list(network_df.keys())[i])

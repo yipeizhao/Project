@@ -81,24 +81,27 @@ else:
     berlin_simple = pd.read_csv("processed_networks/berlin_bus_simple.csv")
     sydney_simple = pd.read_csv("processed_networks/sydney_bus_simple.csv")
     detroit_simple = pd.read_csv("processed_networks/detroit_bus_simple.csv")
+    beijing_simple = pd.read_csv("processed_networks/beijing_bus_simple.csv")
     london = ut.df_to_network(london_simple)
     paris = ut.df_to_network(paris_simple)
     berlin = ut.df_to_network(berlin_simple)
     sydney = ut.df_to_network(sydney_simple)
     detroit = ut.df_to_network(detroit_simple)
-
+    beijing = ut.df_to_network(beijing_simple)
 
 london_bus_complexity = cx.OdC(london)
 paris_bus_complexity = cx.OdC(paris)
 berlin_bus_complexity = cx.OdC(berlin)
 sydney_bus_complexity = cx.OdC(sydney)
 detroit_bus_complexity = cx.OdC(detroit)
+beijing_bus_complexity = cx.OdC(beijing)
 
 complexities = [london_bus_complexity,
                 paris_bus_complexity,
                 berlin_bus_complexity,
                 sydney_bus_complexity,
-                detroit_bus_complexity
+                detroit_bus_complexity,
+                beijing_bus_complexity
                 ]
 
 complexity_table = {
@@ -107,7 +110,7 @@ complexity_table = {
     "Distance" : [],
     "Ratio" : []
     }
-index = ["London","Paris","Berlin","Sydney","Detroit"]
+index = ["London","Paris","Berlin","Sydney","Detroit","Beijing"]
 complexity_table = pd.DataFrame(data = complexity_table)
 complexity_table["Complexity"] = complexities
 complexity_table.index = index
@@ -118,15 +121,17 @@ clustering.append(nx.average_clustering(paris))
 clustering.append(nx.average_clustering(berlin))
 clustering.append(nx.average_clustering(sydney))
 clustering.append(nx.average_clustering(detroit))
+clustering.append(nx.average_clustering(beijing))
 complexity_table["Clustering"] = clustering
 
+#Collected using gephi
 distance = [32.33804,47.63117,
            33.28404,36.13135,
-           70.51257
+           70.51257,27.89102
     ]
 
 complexity_table["Distance"] = distance
-colors = ["red","blue","orange","black","green"]
+colors = ["red","blue","orange","black","green","brown"]
 ratio = [c/l for c,l in zip(clustering,distance)]
 complexity_table["Ratio"] = ratio
 for i in range(len(index)):
