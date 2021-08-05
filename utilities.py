@@ -259,7 +259,7 @@ def subgraph_two_edge_deletion(G):
 
 #Check whether a network is empty(no edges)
 def empty_check(G):
-    if len(G.nodes) == 0 or len(G.edges)==0:
+    if len(G.nodes()) == 0 or len(G.edges())==0:
         return True
     else:
         return False
@@ -289,3 +289,34 @@ def plot_deg_dist(G):
     cnt = list(cnt)
     plt.bar(deg,cnt)
     return 0
+
+def network_to_df(G):
+    edges = list(G.edges())
+    source = [item[0] for item in edges]
+    target = [item[1] for item in edges]
+    df = pd.DataFrame(data = {"source":source,"target":target})
+    return df
+
+def pairwise_rewiring(G,prob):
+    temp_g = G.copy()
+    ig_graph = ig.Graph.from_networkx(temp_g)
+    ig_graph.rewire_edges(prob)
+    G1 = ig_graph.to_networkx()
+    G2 = gcc(G1)
+    return G2
+
+def single_link_rewiring(G,prob):
+    G1 = G.copy()
+    nodes = set(G.nodes())
+    for edge in list(G1.edges()):
+        if random.random()<prob:
+            source = edge[0]
+            neighbor_nodes = list(G1.neighbors(source))
+            neighbor_nodes.append(source)
+            neighbor_nodes = set(neighbor_nodes)
+            if len(nodes - neighbor_nodes) != 0:
+                rewire_node = random.choice(list(nodes - neighbor_nodes))
+                G1.remove_edge(source,edge[1])
+                G1.add_edge(source,rewire_node)
+    G2 = gcc(G1)
+    return G2
