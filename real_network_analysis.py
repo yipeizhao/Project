@@ -4,7 +4,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import Complexity as cx
 import networkx as nx
-index = ["bitcoin","coauthorship","GBPT_train",
+from math import log
+index = ["dolphins","pdzbase","GBPT_train",
          "hamsterster","Roget","flight"]
 load_file_path = ["real_networks/processed/"+item+".csv" for item in index]
 df = [pd.read_csv(item) for item in load_file_path]
@@ -22,28 +23,35 @@ networks_bus_m = [ut.df_to_network(item) for item in df_bus_m]
 complexity = [cx.OdC(G) for G in networks]
 complexity_bus = [cx.OdC(G) for G in networks_bus]
 complexity_bus_m = [cx.OdC(G) for G in networks_bus_m]
-l = [3.57084,4.79803,7.24001,3.21689,4.07539,4.10324]
+l = [3.35695,5.32609,7.24001,3.21689,4.07539,4.10324]
 l_bus = [32.33804,47.63117,33.28404,36.13135,70.51257,27.89102]
-c = [nx.average_clustering(G) for G in networks]
-c_bus = [nx.average_clustering(G) for G in networks_bus]
+#c = [nx.average_clustering(G) for G in networks]
+#c_bus = [nx.average_clustering(G) for G in networks_bus]
 l_bus_m = [nx.average_shortest_path_length(G) for G in networks_bus_m]
-c_bus_m = [nx.average_clustering(G) for G in networks_bus_m]
-# complexity_group = [];c_group = [];l_group=[];index_group = []
-# for i in range(len(networks)):
-#     complexity_group.append(complexity[i])
-#     complexity_group.append(complexity_bus[i])
-#     c_group.append(c[i])
-#     c_group.append(c_bus[i])
-#     l_group.append(l[i])
-#     l_group.append(l_bus[i])
-#     index_group.append(index[i])
-#     index_group.append(index_bus[i])
+#c_bus_m = [nx.average_clustering(G) for G in networks_bus_m]
+
+n = [len(item.nodes) for item in networks]
+m = [len(item.edges) for item in networks]
+lr = [log(item)/log(2*item1/item) for item,item1 in zip(n,m)]
+
+n_bus = [len(item.nodes) for item in networks_bus]
+m_bus = [len(item.edges) for item in networks_bus]
+lr_bus = [log(item)/log(2*item1/item) for item,item1 in zip(n_bus,m_bus)]
+
+n_bus_m = [len(item.nodes) for item in networks_bus_m]
+m_bus_m = [len(item.edges) for item in networks_bus_m]
+lr_bus_m = [log(item)/log(2*item1/item) for item,item1 in zip(n_bus_m,m_bus_m)]
+
+L_ratio = [item/item1 for item,item1 in zip(l,lr)]
+L_ratio_bus = [item/item1 for item,item1 in zip(l_bus,lr_bus)]
+L_ratio_bus_m = [item/item1 for item,item1 in zip(l_bus_m,lr_bus_m)]
+
     
 color= ["red","blue","green","orange","brown","cyan"]
 for i in range(len(networks)):
-    plt.scatter(l[i],complexity[i],color = color[i])
-    plt.scatter(l_bus[i],complexity_bus[i],color = color[i],marker = "x")
-    plt.scatter(l_bus_m[i],complexity_bus_m[i],color = color[i],marker = "^")
-plt.xlabel("Average distance")
+    plt.scatter(L_ratio[i],complexity[i],color = color[i])
+    plt.scatter(L_ratio_bus[i],complexity_bus[i],color = color[i],marker = "x")
+    plt.scatter(L_ratio_bus_m[i],complexity_bus_m[i],color = color[i],marker = "^")
+plt.xlabel("L/Lr")
 plt.ylabel("complexity")
-#plt.legend()
+plt.legend()

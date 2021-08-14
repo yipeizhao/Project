@@ -1,6 +1,6 @@
 import utilities as ut
 import pandas as pd
-index = ["bitcoin","coauthorship","GBPT_train",
+index = ["dolphins","pdzbase","GBPT_train",
          "hamsterster","Roget"]
 load_file_path = ["real_networks/raw/"+item+".csv" for item in index]
 dfs = [pd.read_csv(item) for item in load_file_path]

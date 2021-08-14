@@ -1,19 +1,20 @@
-from utilities import random_networks,small_world_property,BA_random_graphs,WS_random_graphs,NW_random_graphs
+#from utilities import random_networks,small_world_property,BA_random_graphs,WS_random_graphs,NW_random_graphs
 import matplotlib.pyplot as plt
 import Complexity
-import STS
+import utilities as ut
+import MAg
 #Parameter
 normalisation = True
-n = 20
+n = 7
 use_all_m = False
-sample = 500
-method1 = "Cr"
+sample = 10
+method1 = "MAg"
 measure_method1 = getattr(Complexity,method1)
-method2 = "Ce"
+method2 = "OdC"
 measure_method2 = getattr(Complexity,method2)
 
 result1=[];result2=[]
-graphs, df = random_networks(n,use_all_m,sample)
+graphs, df = ut.random_networks(n,use_all_m,sample)
 small_worlds_edge = []
 small_worlds_result = []
 power_law_edge=[]
@@ -28,15 +29,15 @@ for i in range(len(graphs)):
    # if df["Power_law"][i] == 1:
    #     power_law_edge.append(df["Number_of_edges"][i])
    #     power_law_result.append(result1[i])
-for i in range(len(graphs)):
-   result2.append(measure_method2(graphs[i],normalisation=normalisation))
+# for i in range(len(graphs)):
+#    result2.append(measure_method2(graphs[i],normalisation=normalisation))
 
 df = df.sort_index()
 df["Complexity"] = result1
 plt.scatter(df["Number_of_edges"],result1,marker = 'x',color = 'black',alpha = 0.7,label = "Random graphs")
 
 # plt.scatter(small_worlds_edge,small_worlds_result,marker = 'o',color = 'red',label = "Small world")
-plt.scatter(power_law_edge,power_law_result,color = 'blue',label = "Power law")
+#plt.scatter(power_law_edge,power_law_result,color = 'blue',label = "Power law")
 
 # BA_graphs = BA_random_graphs(n,int(len(graphs)/5))
 # BA_edges = []
@@ -63,10 +64,10 @@ plt.scatter(power_law_edge,power_law_result,color = 'blue',label = "Power law")
 #     NW_result.append(measure_method(NW_graphs[i]))
 # plt.scatter(NW_edges,NW_result,marker = 'o',color = 'orange',label='NW graphs')
 
-plt.title(method1+" " + "n="+str(n))
-plt.legend()
-plt.ylim([0,1])
+# plt.title(method1+" " + "n="+str(n))
+# plt.legend()
+# plt.ylim([0,1])
 
-plt.figure()
-plt.scatter(result1,result2,c  = df["Number_of_edges"])
-plt.xlabel(method1);plt.ylabel(method2)
+# plt.figure()
+# plt.scatter(result1,result2,c  = df["Number_of_edges"])
+# plt.xlabel(method1);plt.ylabel(method2)

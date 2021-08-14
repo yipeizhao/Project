@@ -129,7 +129,7 @@ def C1espec(G,normalisation =True):
     if normalisation == False:
         return N1espec
     else:
-        return (N1espec-1)/(mcu-1)
+        return (N1espec)/(mcu)
 
 def C2espec(G,normalisation =True):
     subgraphs = ut.subgraph_two_edge_deletion(G)
@@ -150,3 +150,22 @@ def C2espec(G,normalisation =True):
         return N2espec
     else:
         return (N2espec-1)/(comb(int(mcu),2)-1)
+
+def MAg(G,normalisation = True):
+    n = len(G.nodes)
+    path = nx.path_graph(n)
+    path_edges = list(path.edges)
+    path.remove_edge(path_edges[0][0],path_edges[0][1])
+    clique = nx.gnm_random_graph(n,n**2/2)
+    R = ut.redundancy(G)
+    I = ut.mutual_info(G)
+    R_p = ut.redundancy(path)
+    R_c = ut.redundancy(clique)
+    I_p = ut.mutual_info(path)
+    I_c = ut.mutual_info(clique)
+    MAr = 4*((R-R_p)/(R_c - R_p))*(1 - (R-R_p)/(R_c-R_p))
+    MAi = 4*((I-I_c)/(I_p-I_c))*(1-(I-I_c)/(I_p-I_c))
+    if normalisation == True:
+        return MAr * MAi
+    else:
+        return R*I

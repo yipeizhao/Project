@@ -298,25 +298,66 @@ def network_to_df(G):
     return df
 
 def pairwise_rewiring(G,prob):
-    temp_g = G.copy()
-    ig_graph = ig.Graph.from_networkx(temp_g)
-    ig_graph.rewire_edges(prob)
-    G1 = ig_graph.to_networkx()
-    G2 = gcc(G1)
-    return G2
+    rewire_number = int(prob*len(G.edges))
+    G1 = G.copy()
+    c = 0 
+    while c != rewire_number:
+        edges = list(G1.edges())
+        rewire_edges = random.sample(edges,2)
+        source1 = rewire_edges[0][0]
+        source2 = rewire_edges[1][0]
+        target1 = rewire_edges[0][1]
+        target2 = rewire_edges[1][1]
+        if len(set([source1,source2,target1,target2]))==4:
+            G1.remove_edge(source1,target1)
+            G1.remove_edge(source2,target2)
+            G1.add_edge(source1,target2)
+            G1.add_edge(source2,target1)
+            if nx.is_connected(G1):
+                c = c+1
+            else:
+                G1.add_edge(source1,target1)
+                G1.add_edge(source2,target2)
+                G1.remove_edge(source1,target2)
+                G1.remove_edge(source2,target1)
+    return G1
 
 def single_link_rewiring(G,prob):
     G1 = G.copy()
-    nodes = set(G.nodes())
-    for edge in list(G1.edges()):
-        if random.random()<prob:
-            source = edge[0]
-            neighbor_nodes = list(G1.neighbors(source))
-            neighbor_nodes.append(source)
-            neighbor_nodes = set(neighbor_nodes)
-            if len(nodes - neighbor_nodes) != 0:
-                rewire_node = random.choice(list(nodes - neighbor_nodes))
-                G1.remove_edge(source,edge[1])
-                G1.add_edge(source,rewire_node)
-    G2 = gcc(G1)
-    return G2
+    rewire_number = int(prob * len(G1.edges))
+    for i in range(rewire_number):
+        flag = 0
+        while flag ==0:
+            source = random.choice(list(G1.nodes()))
+            neighbors = list(G1.neighbors(source))
+            remove_neighbor = random.choice(neighbors)
+            G1.remove_edge(source,remove_neighbor)
+            if not nx.is_connected(G1):
+                G1.add_edge(source,remove_neighbor)
+                #print(nx.is_connected(G1))
+            else:
+                options = set(list(G1.nodes)) - set(list(G1.neighbors(source)))-set([source,remove_neighbor])
+                rewire_to = random.choice(list(options))
+                G1.add_edge(source,rewire_to)
+                flag = 1
+    return G1
+
+def mutual_info(G):
+    edges = list(G.edges)
+    m = len(edges)
+    I = 0
+    for item in edges:
+        d0 = len(list(G.neighbors(item[0])))
+        d1 = len(list(G.neighbors(item[1]))) 
+        I = I + log(2*m/(d0*d1))
+    return I/m
+
+def redundancy(G):
+    edges = list(G.edges)
+    m = len(edges)
+    R = 0
+    for item in edges:
+        d0 = len(list(G.neighbors(item[0])))
+        d1 = len(list(G.neighbors(item[1]))) 
+        R = R + log((d0*d1))
+    return R/m

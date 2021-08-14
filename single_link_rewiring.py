@@ -1,41 +1,48 @@
 import networkx as nx
 import random
-import utilities as ut
+import matplotlib.pyplot as plt
 import Complexity as cx
-import pandas as pd
-# def single_link_rewiring(G,prob):
-#     nodes = set(G.nodes())
-#     for edge in list(G.edges()):
-#         if random.random()<prob:
-#             source = edge[0]
-#             neighbor_nodes = set(G.neighbors(source))
-#             rewire_node = random.choice(list(nodes - neighbor_nodes))
-#             G.remove_edge(source,edge[1])
-#             G.add_edge(source,rewire_node)
-#     return G 
+import numpy as np
+def single_link_rewiring(G,prob):
+    G1 = G.copy()
+    rewire_number = int(prob * len(G1.edges))
+    for i in range(rewire_number):
+        flag = 0
+        while flag ==0:
+            source = random.choice(list(G1.nodes()))
+            neighbors = list(G1.neighbors(source))
+            remove_neighbor = random.choice(neighbors)
+            G1.remove_edge(source,remove_neighbor)
+            if not nx.is_connected(G1):
+                G1.add_edge(source,remove_neighbor)
+                #print(nx.is_connected(G1))
+            else:
+                options = set(list(G1.nodes)) - set(list(G1.neighbors(source)))-set([source,remove_neighbor])
+                rewire_to = random.choice(list(options))
+                G1.add_edge(source,rewire_to)
+                flag = 1
+    return G1
 
-
-# G = nx.gnp_random_graph(10,0.3)
-# G1 = single_link_rewiring(G,0.5)
-# ut.plot_deg_dist(G1)
-
-df = pd.read_csv("real_networks/processed/bitcoin.csv")
-G = ut.df_to_network(df)
-print(cx.OdC(G))
-prob = 0.8
-
-
+G = nx.barabasi_albert_graph(100,3)
+step_prob = 0.01
 G1 = G.copy()
-nodes = set(G.nodes())
-for edge in list(G1.edges()):
-    if random.random()<prob:
-        source = edge[0]
-        neighbor_nodes = list(G1.neighbors(source))
-        neighbor_nodes.append(source)
-        neighbor_nodes = set(neighbor_nodes)
-        if len(nodes - neighbor_nodes) != 0:
-            rewire_node = random.choice(list(nodes - neighbor_nodes))
-            G1.remove_edge(source,edge[1])
-            G1.add_edge(source,rewire_node)
+prob = np.linspace(0,1,100)
+result = []
+networks = []
+for i in range(10):
+    G = nx.barabasi_albert_graph(100,3)
+    G1 = G.copy()
+    single_result = []
+    for i in range(100):
+        G2 = G1.copy()
+        G1 = single_link_rewiring(G2, step_prob)
+        single_result.append(cx.Cr(G1))
+        networks.append(G1)
+    result.append(single_result)
 
-G2 = ut.gcc(G1)
+avg_result = [0]*100
+for i in range(len(prob)):
+    for j in range(len(result)):
+        avg_result[i] = avg_result[i] + result[j][i]
+avg_result = [item/len(result) for item in avg_result]
+plt.scatter(prob,avg_result)
