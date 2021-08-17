@@ -42,7 +42,7 @@ def MAg(G,normalisation = True):
         return R*I
     
 graphs,df = ut.random_networks(12,True,50)
-result = [];result1 = []
+result = [];result1 = [];result2=[]
 for G in graphs:
     n = len(G.nodes)
     path = nx.path_graph(n)
@@ -55,12 +55,11 @@ for G in graphs:
     I_p = mutual_info(path)
     I_c = mutual_info(clique)
     MAr = 4*((R-R_p)/(R_c - R_p))*(1 - (R-R_p)/(R_c-R_p))
-    MAi = 4*((I-I_c)/(I_p-I_c))*(1-(I-I_c)/(I_p-I_c))
-    
+    MAi = 4*((I-I_c)/(I_p-I_c))*(1-(I-I_c)/(I_p-I_c))    
     MAri = 4 *((R-R_p)/(R_c - R_p))*((I-I_c)/(I_p-I_c))
     result.append(MAr*MAi)
     result1.append(MAri)
-
+    result2.append(R*(1-I))
 import matplotlib.pyplot as plt
 plt.scatter(df["Number_of_edges"],result)
 plt.scatter(df["Number_of_edges"],result1,marker = "x")
