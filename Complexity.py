@@ -1,6 +1,6 @@
 import numpy as np
 import networkx as nx
-from math import cos,pi
+from math import cos,pi,log
 import utilities as ut
 from scipy.linalg import eig
 from math import comb
@@ -151,21 +151,37 @@ def C2espec(G,normalisation =True):
     else:
         return (N2espec-1)/(comb(int(mcu),2)-1)
 
+
 def MAg(G,normalisation = True):
     n = len(G.nodes)
-    path = nx.path_graph(n)
-    path_edges = list(path.edges)
-    path.remove_edge(path_edges[0][0],path_edges[0][1])
-    clique = nx.gnm_random_graph(n,n**2/2)
     R = ut.redundancy(G)
     I = ut.mutual_info(G)
-    R_p = ut.redundancy(path)
-    R_c = ut.redundancy(clique)
-    I_p = ut.mutual_info(path)
-    I_c = ut.mutual_info(clique)
+    R_p = 2*(n-2)/(n-1)*log(2)
+    R_c = 2*log(n-1)
+    I_p = log(n-1)-((n-3)/(n-1))*log(2)
+    I_c = log((n)/(n-1))
     MAr = 4*((R-R_p)/(R_c - R_p))*(1 - (R-R_p)/(R_c-R_p))
     MAi = 4*((I-I_c)/(I_p-I_c))*(1-(I-I_c)/(I_p-I_c))
     if normalisation == True:
         return MAr * MAi
+    else:
+        return R*I
+    MAr = 4*((R-R_p)/(R_c - R_p))*(1 - (R-R_p)/(R_c-R_p))
+    MAi = 4*((I-I_c)/(I_p-I_c))*(1-(I-I_c)/(I_p-I_c))
+    if normalisation == True:
+        return MAr * MAi
+    else:
+        return R*I
+
+def MAri(G,normalisation = True):
+    n = len(G.nodes)
+    R = ut.redundancy(G)
+    I = ut.mutual_info(G)
+    R_p = 2*(n-2)/(n-1)*log(2)
+    R_c = 2*log(n-1)
+    I_p = log(n-1)-((n-3)/(n-1))*log(2)
+    I_c = log((n)/(n-1))
+    if normalisation == True:
+        return 4 *((R-R_p)/(R_c - R_p))*((I-I_c)/(I_p-I_c))
     else:
         return R*I

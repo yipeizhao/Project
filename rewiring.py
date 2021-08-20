@@ -34,22 +34,22 @@ class rewiring():
     #Reinstantiate the rewired graph
     def clear_rewiring(self):
         self.rewired_G = self.G.copy()
-        if cx.OdC(self.rewired_G) != cx.OdC(self.G):
+        if cx.MAri(self.rewired_G) != cx.MAri(self.G):
             Exception("Clearing failed")
     #Carry out a sample number of rewiring
     def continuous_rewiring(self,method):
-        self.result = [cx.OdC(self.G)]
+        self.result = [cx.MAri(self.G)]
         if method == "S":
             niter = int(1/self.step_prob)
             for i in range(niter):
                 self.single_link_rewiring()
-                self.result.append(cx.OdC(self.rewired_G))
+                self.result.append(cx.MAri(self.rewired_G))
             self.s_n += 1
         elif method == "P":
             niter = int(1/self.step_prob)
             for i in range(niter):
                 self.pairwise_rewiring()
-                self.result.append(cx.OdC(self.rewired_G))
+                self.result.append(cx.MAri(self.rewired_G))
             self.p_n += 1
         else:
             raise ValueError('Insufficient method')
@@ -133,7 +133,7 @@ class rewiring():
                 plt.errorbar(prob_list,mean,yerr = std,color = "blue",label = "Pairwise rewiring")
                 plt.legend()
                 plt.xlabel("Rewiring Probability")
-                plt.ylabel("OdC Complexity")
+                plt.ylabel("MAri Complexity")
                 plt.title("Change of complexity after rewiring")
             else:
                 raise Exception("There is no recorded result for one/both of the methods.")

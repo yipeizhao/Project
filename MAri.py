@@ -1,7 +1,7 @@
 from math import log
 import utilities as ut
 import networkx as nx
-
+import Complexity as cx
 def mutual_info(G):
     edges = list(G.edges)
     m = len(edges)
@@ -22,44 +22,29 @@ def redundancy(G):
         R = R + log((d0*d1))
     return R/m
 
-def MAg(G,normalisation = True):
+def MAri(G,normalisation = True):
     n = len(G.nodes)
-    path = nx.ring_of_cliques(n,2)
-    path_edges = list(path.edges)
-    path.remove_edge(path_edges[0][0],path_edges[0][1])
-    clique = nx.gnm_random_graph(n,n**2/2)
     R = redundancy(G)
     I = mutual_info(G)
-    R_p = redundancy(path)
-    R_c = redundancy(clique)
-    I_p = mutual_info(path)
-    I_c = mutual_info(clique)
-    MAr = 4*((R-R_p)/(R_c - R_p))*(1 - (R-R_p)/(R_c-R_p))
-    MAi = 4*((I-I_c)/(I_p-I_c))*(1-(I-I_c)/(I_p-I_c))
+    R_p = 2*(n-2)/(n-1)*log(2)
+    R_c = 2*log(n-1)
+    I_p = log(n-1)-((n-3)/(n-1))*log(2)
+    I_c = log((n)/(n-1))
     if normalisation == True:
-        return MAr * MAi
+        return 4 *((R-R_p)/(R_c - R_p))*((I-I_c)/(I_p-I_c))
     else:
         return R*I
-    
-graphs,df = ut.random_networks(12,True,50)
-result = [];result1 = [];result2=[]
-for G in graphs:
-    n = len(G.nodes)
-    path = nx.path_graph(n)
-    path_edges = list(path.edges)
-    clique = nx.gnm_random_graph(n,n**2/2)
-    R = redundancy(G)
-    I = mutual_info(G)
-    R_p = redundancy(path)
-    R_c = redundancy(clique)
-    I_p = mutual_info(path)
-    I_c = mutual_info(clique)
-    MAr = 4*((R-R_p)/(R_c - R_p))*(1 - (R-R_p)/(R_c-R_p))
-    MAi = 4*((I-I_c)/(I_p-I_c))*(1-(I-I_c)/(I_p-I_c))    
-    MAri = 4 *((R-R_p)/(R_c - R_p))*((I-I_c)/(I_p-I_c))
-    result.append(MAr*MAi)
-    result1.append(MAri)
-    result2.append(R*(1-I))
+n=7
+R_p = 2*(n-2)/(n-1)*log(2)
+R_c = 2*log(n-1)
+I_p = log(n-1)-((n-3)/(n-1))*log(2)
+I_c = log((n)/(n-1))
+graphs,df = ut.random_networks(n,True,50)
+result = [cx.MAg(g) for g in graphs]
+red = [redundancy(g) for g in graphs]
+red = [(item-R_p)/(R_c-R_p) for item in red]
+mi = [mutual_info(g) for g in graphs]
+mi = [(item-I_c)/(I_p-I_c) for item in mi]
+
 import matplotlib.pyplot as plt
-plt.scatter(df["Number_of_edges"],result)
-plt.scatter(df["Number_of_edges"],result1,marker = "x")
+plt.scatter(df["Number_of_edges"],result);

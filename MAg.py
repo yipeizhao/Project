@@ -24,39 +24,21 @@ def redundancy(G):
 
 def MAg(G,normalisation = True):
     n = len(G.nodes)
-    path = nx.ring_of_cliques(n,2)
-    path_edges = list(path.edges)
-    path.remove_edge(path_edges[0][0],path_edges[0][1])
-    clique = nx.gnm_random_graph(n,n**2/2)
     R = redundancy(G)
     I = mutual_info(G)
-    R_p = redundancy(path)
-    R_c = redundancy(clique)
-    I_p = mutual_info(path)
-    I_c = mutual_info(clique)
+    R_p = 2*(n-2)/(n-1)*log(2)
+    R_c = 2*log(n-1)
+    I_p = log(n-1)-((n-3)/(n-1))*log(2)
+    I_c = log((n)/(n-1))
     MAr = 4*((R-R_p)/(R_c - R_p))*(1 - (R-R_p)/(R_c-R_p))
     MAi = 4*((I-I_c)/(I_p-I_c))*(1-(I-I_c)/(I_p-I_c))
     if normalisation == True:
         return MAr * MAi
     else:
         return R*I
-    
+
 graphs,df = ut.random_networks(7,True,100)
-result = []
-for G in graphs:
-    n = len(G.nodes)
-    path = nx.path_graph(n)
-    path_edges = list(path.edges)
-    clique = nx.gnm_random_graph(n,n**2/2)
-    R = redundancy(G)
-    I = mutual_info(G)
-    R_p = redundancy(path)
-    R_c = redundancy(clique)
-    I_p = mutual_info(path)
-    I_c = mutual_info(clique)
-    MAr = 4*((R-R_p)/(R_c - R_p))*(1 - (R-R_p)/(R_c-R_p))
-    MAi = 4*((I-I_c)/(I_p-I_c))*(1-(I-I_c)/(I_p-I_c))
-    result.append(MAr*MAi)
+result = [MAg(g) for g in graphs]
 
 import matplotlib.pyplot as plt
 plt.scatter(df["Number_of_edges"],result)
