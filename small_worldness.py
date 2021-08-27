@@ -5,10 +5,10 @@ from math import log
 import matplotlib.pyplot as plt
 import Complexity as cx
 
-n = 50
+n = 7
 use_all_m = False
-sample_number = 500
-method = "Cr"
+sample_number = 50
+method = "OdC"
 measure_method = getattr(cx,method)
 
 #   Generating random graphs

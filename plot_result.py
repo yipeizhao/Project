@@ -6,9 +6,9 @@ import MAg
 #Parameter
 normalisation = True
 n = 7
-use_all_m = False
-sample = 10
-method1 = "MAg"
+use_all_m = True
+sample = 50
+method1 = "OdC"
 measure_method1 = getattr(Complexity,method1)
 method2 = "OdC"
 measure_method2 = getattr(Complexity,method2)

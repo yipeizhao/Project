@@ -46,7 +46,7 @@ def OdC(G,normalisation = True):
         
         #Normalisation
         if normalisation == True:
-            complexity = complexity/(ln(len(G.degree)-1))
+            complexity = complexity/(ln(len(G.nodes)-1))
         return complexity
 
 
@@ -149,7 +149,7 @@ def C2espec(G,normalisation =True):
     if normalisation == False:
         return N2espec
     else:
-        return (N2espec-1)/(comb(int(mcu),2)-1)
+        return 2*(N2espec-1)/(comb(int(mcu),2)-1)
 
 
 def MAg(G,normalisation = True):
@@ -177,10 +177,10 @@ def MAri(G,normalisation = True):
     n = len(G.nodes)
     R = ut.redundancy(G)
     I = ut.mutual_info(G)
-    R_p = 2*(n-2)/(n-1)*log(2)
-    R_c = 2*log(n-1)
-    I_p = log(n-1)-((n-3)/(n-1))*log(2)
-    I_c = log((n)/(n-1))
+    R_p = ut.redundancy(nx.path_graph(n))
+    R_c = ut.redundancy(nx.gnm_random_graph(n,n*(n-1)*0.5))
+    I_p = ut.mutual_info(nx.path_graph(n))
+    I_c = ut.mutual_info(nx.gnm_random_graph(n,n*(n-1)*0.5))
     if normalisation == True:
         return 4 *((R-R_p)/(R_c - R_p))*((I-I_c)/(I_p-I_c))
     else:
