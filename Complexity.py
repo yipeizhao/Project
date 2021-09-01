@@ -3,7 +3,7 @@ import networkx as nx
 from math import cos,pi,log
 import utilities as ut
 from scipy.linalg import eig
-from math import comb
+import math
 
 def OdC(G,normalisation = True):
     if ut.empty_check(G) == True:
@@ -105,7 +105,19 @@ def Ce(G,normalisation = True):
 def C1est(G,normalisation = True):
     n = len(G.nodes)
     mcu = n**1.68-10
-    N1est = len(ut.isomorphic_graphs(G))
+    subgraphs = ut.subgraph_one_edge_deletion(G)
+    st = []
+    for item in subgraphs:
+        L = nx.laplacian_matrix(item).toarray()
+        L = np.delete(L,0,axis=0)
+        L = np.delete(L,0,axis=1)
+        _,logdet = np.linalg.slogdet(L)
+        det = math.exp(logdet)
+        det = int(det)
+        det = round(det,10)
+        if det not in st:
+            st.append(det)
+    N1est = len(st)
     if normalisation == False:
         return N1est
     else:
@@ -113,43 +125,86 @@ def C1est(G,normalisation = True):
 
 def C1espec(G,normalisation =True):
     subgraphs = ut.subgraph_one_edge_deletion(G)
-    spectra = []
+    spectra = [];spectra_s = []
     mcu = len(G.nodes())**1.68-10
     for i in range(len(subgraphs)):
         L = nx.laplacian_matrix(subgraphs[i]).todense()
         A = nx.adjacency_matrix(subgraphs[i]).todense()
-        L = L + A + A
-        eig_values,_ = eig(L)
-        spectra.append(max(eig_values.real))
-    rounded_spectra = []
-    for item in spectra:
-        rounded_spectra.append(round(item,7))
         
-    N1espec = len(set(rounded_spectra))
+        eig_values,_ = eig(L)
+        eig_values = eig_values.real
+        eig_values = sorted(eig_values)
+        eig_values = [round(item,10) for item in eig_values]
+        
+        L = L + A + A
+        eig_values_s,_ = eig(L)
+        eig_values_s = eig_values_s.real
+        eig_values_s = sorted(eig_values_s)
+        eig_values_s = [round(item,10) for item in eig_values_s]
+        
+        if eig_values not in spectra and eig_values_s not in spectra_s:
+            spectra.append(eig_values)
+            spectra_s.append(eig_values_s)
+        
+    N1espec = len(spectra)
     if normalisation == False:
         return N1espec
     else:
         return (N1espec)/(mcu)
 
-def C2espec(G,normalisation =True):
-    subgraphs = ut.subgraph_two_edge_deletion(G)
-    spectra = []
+def C2espec(G,normalisation=True):
+    n= len(G.nodes)
+    remove_edges = []
+    for i in range(n):
+        neighbours = list(G.neighbors(i))
+        for item in neighbours:
+            if item < i:
+                remove_edges.append([i,item])
+    
+    
+    products = []
+    for i in range(len(remove_edges)):
+        for j in range(i+1,len(remove_edges)):
+            products.append([remove_edges[i],remove_edges[j]])
+    
+    subgraphs = []
+    for item in products:
+        temp_G = G.copy()
+        temp_G.remove_edge(item[0][0],item[0][1])
+        temp_G.remove_edge(item[1][0],item[1][1])
+        subgraphs.append(temp_G)
+        
+    spectra = [];spectra_s = []
     mcu = len(G.nodes())**1.68-10
     for i in range(len(subgraphs)):
         L = nx.laplacian_matrix(subgraphs[i]).todense()
         A = nx.adjacency_matrix(subgraphs[i]).todense()
-        L = L + A + A
-        eig_values,_ = eig(L)
-        spectra.append(max(eig_values.real))
-    rounded_spectra = []
-    for item in spectra:
-        rounded_spectra.append(round(item,7))
         
-    N2espec = len(set(rounded_spectra))
+        eig_values,_ = eig(L)
+        eig_values = eig_values.real
+        eig_values = sorted(eig_values)
+        eig_values = [round(item,10) for item in eig_values]
+        
+        L = L + A + A
+        eig_values_s,_ = eig(L)
+        eig_values_s = eig_values_s.real
+        eig_values_s = sorted(eig_values_s)
+        eig_values_s = [round(item,10) for item in eig_values_s]
+        
+        if eig_values not in spectra and eig_values_s not in spectra_s:
+            spectra.append(eig_values)
+            spectra_s.append(eig_values_s)
+            
+    N2espec = len(spectra)
     if normalisation == False:
         return N2espec
     else:
-        return 2*(N2espec-1)/(comb(int(mcu),2)-1)
+        if n <8:
+            C2espec = 2*(N2espec - 1)/(math.comb(int(mcu),2))
+            return C2espec
+        else:
+            C2espec = (N2espec - 1)/(math.comb(int(mcu),2))
+            return C2espec
 
 
 def MAg(G,normalisation = True):
@@ -177,10 +232,10 @@ def MAri(G,normalisation = True):
     n = len(G.nodes)
     R = ut.redundancy(G)
     I = ut.mutual_info(G)
-    R_p = ut.redundancy(nx.path_graph(n))
-    R_c = ut.redundancy(nx.gnm_random_graph(n,n*(n-1)*0.5))
-    I_p = ut.mutual_info(nx.path_graph(n))
-    I_c = ut.mutual_info(nx.gnm_random_graph(n,n*(n-1)*0.5))
+    R_p = 2*log(2)*(n-2)/(n-1)
+    R_c = 2*log(n-1)
+    I_p = log(n-1)-log(2)*(n-3)/(n-1)
+    I_c = log(n/(n-1))
     if normalisation == True:
         return 4 *((R-R_p)/(R_c - R_p))*((I-I_c)/(I_p-I_c))
     else:

@@ -161,7 +161,7 @@ def power_law_property(G):
 def subgraph_one_edge_deletion(G):
     subgraphs = []
     for edge in list(G.edges):
-        temp_graph = nx.Graph(G)
+        temp_graph = G.copy()
         temp_graph.remove_edge(edge[0],edge[1])
         subgraphs.append(temp_graph)
     return subgraphs
@@ -361,3 +361,19 @@ def redundancy(G):
         d1 = len(list(G.neighbors(item[1]))) 
         R = R + log((d0*d1))
     return R/m
+
+def complement_graph(G):
+    edges = list(G.edges)
+    nodes = list(G.nodes)
+    product_list=[]
+    for i in range(len(nodes)):
+        for j in range(i+1,len(nodes)):
+            product_list.append((nodes[i],nodes[j]))
+    complement = list(set(product_list)-set(edges))
+    new_G = nx.Graph()
+    for item in complement:
+        new_G.add_edge(item[0],item[1])
+    if len(G.nodes)==len(new_G.nodes):
+        if nx.is_connected(new_G):
+            return new_G
+    return None

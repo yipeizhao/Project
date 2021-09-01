@@ -14,4 +14,7 @@ def complement_graph(G):
     new_G = nx.Graph()
     for item in complement:
         new_G.add_edge(item[0],item[1])
-    return new_G
+    if nx.is_connected(new_G):
+        return new_G
+    else:
+        return None
