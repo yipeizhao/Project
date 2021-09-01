@@ -16,51 +16,5 @@
   {}
 \endgroup
 
-
-\refsection{0}
-  \datalist[entry]{nty/global//global/global}
-    \entry{brandes_robins_mccranie_wasserman_2013}{article}{}
-      \name{author}{4}{}{%
-        {{hash=392b457d9bac1ed69366176e7857d7e9}{%
-           family={Brandes},
-           familyi={B\bibinitperiod},
-           given={Ulrik},
-           giveni={U\bibinitperiod}}}%
-        {{hash=e341e2fae921646c0763ebaa25184685}{%
-           family={Robins},
-           familyi={R\bibinitperiod},
-           given={Garry},
-           giveni={G\bibinitperiod}}}%
-        {{hash=ef2fb4cb2c348e7513ffaac9a3042710}{%
-           family={McCranie},
-           familyi={M\bibinitperiod},
-           given={Ann},
-           giveni={A\bibinitperiod}}}%
-        {{hash=9c52a2564ed65da9cd3cb13541ccff59}{%
-           family={Wasserman},
-           familyi={W\bibinitperiod},
-           given={Stanley},
-           giveni={S\bibinitperiod}}}%
-      }
-      \strng{namehash}{6938747f5f19c5b477a0cac31794d4dc}
-      \strng{fullhash}{b5ae78e575c8ba95183395da095e10d9}
-      \strng{bibnamehash}{6938747f5f19c5b477a0cac31794d4dc}
-      \strng{authorbibnamehash}{6938747f5f19c5b477a0cac31794d4dc}
-      \strng{authornamehash}{6938747f5f19c5b477a0cac31794d4dc}
-      \strng{authorfullhash}{b5ae78e575c8ba95183395da095e10d9}
-      \field{sortinit}{B}
-      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Network Science}
-      \field{number}{1}
-      \field{title}{What is network science?}
-      \field{volume}{1}
-      \field{year}{2013}
-      \field{pages}{1\bibrangedash 15}
-      \range{pages}{15}
-    \endentry
-  \enddatalist
-\endrefsection
 \endinput
 
