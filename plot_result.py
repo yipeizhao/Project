@@ -2,14 +2,14 @@
 import matplotlib.pyplot as plt
 import Complexity
 import utilities as ut
-import MAg
+import C1est
 #Parameter
 normalisation = True
 n = 7
 use_all_m = True
 sample = 50
-method1 = "OdC"
-measure_method1 = getattr(Complexity,method1)
+method1 = "C1est"
+measure_method1 = getattr(C1est,method1)
 method2 = "OdC"
 measure_method2 = getattr(Complexity,method2)
 

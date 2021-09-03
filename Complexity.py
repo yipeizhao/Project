@@ -199,12 +199,8 @@ def C2espec(G,normalisation=True):
     if normalisation == False:
         return N2espec
     else:
-        if n <8:
-            C2espec = 2*(N2espec - 1)/(math.comb(int(mcu),2))
-            return C2espec
-        else:
-            C2espec = (N2espec - 1)/(math.comb(int(mcu),2))
-            return C2espec
+        C2espec = (N2espec - 1)/(math.comb(int(mcu),2))
+        return C2espec
 
 
 def MAg(G,normalisation = True):

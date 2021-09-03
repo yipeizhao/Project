@@ -35,6 +35,3 @@ def subgraph_one_edge_deletion(G):
         temp_graph.remove_edge(edge[0],edge[1])
         subgraphs.append(temp_graph)
     return subgraphs
-
-G  = nx.gnm_random_graph(20,50)
-print(C1espec(G))
