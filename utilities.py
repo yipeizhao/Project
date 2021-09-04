@@ -377,3 +377,8 @@ def complement_graph(G):
         if nx.is_connected(new_G):
             return new_G
     return None
+
+def lr(G):
+    n = len(G.nodes)
+    k = 2*len(G.edges)/n
+    return log(n)/log(k)
