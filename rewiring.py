@@ -21,7 +21,7 @@ class rewiring():
         if self.bus == False:
             load_path = "real_networks/processed/"+self.name+".csv"
         else:
-            load_path = "real_networks/processed/modified_bus/m_"+self.name+".csv"
+            load_path = "bus/modified/m_"+self.name+".csv"
         df = pd.read_csv(load_path)
         self.G = ut.df_to_network(df)
 
