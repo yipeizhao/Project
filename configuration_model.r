@@ -28,7 +28,6 @@ C1espec_results = integer(length(gamma_list))
 graphs = list()
 for(niter in 1:50){
 for(i in 1:length(gamma_list)){
-  print(niter)
   series = power_law_series(n,gamma_list[i])
   if(sum(series)%%2 !=0){
     series[1]=series[1]+1
@@ -51,7 +50,7 @@ dev.new(3,5)
 plot(gamma_list, C1espec_results, col="black",pch="*","l", lty=1, ylim=c(0,0.5), ylab="Complexity",xlab="Gamma" )
 lines(gamma_list, OdC_results, col="blue",lty=2)
 
-lines(gamma_list, mari_results, col="red", lty=3)
+lines(gamma_list, mari_results, col="magenta", lty=4)
 
 legend(3.1,0.45,legend=c(expression(paste('C'["1e,spec"])),"OdC","MAri"),
        col=c("black","blue","red"),

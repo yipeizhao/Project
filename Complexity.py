@@ -5,6 +5,13 @@ import utilities as ut
 from scipy.linalg import eig
 import math
 
+#   All complexity measure have an optional parameter normalisation
+#   If normalisation = True(set by default), the normalised value will be returned
+#   Otherwise, the unnormalized form will be returned
+
+
+
+#   Calculates OdC Complexity of a graph
 def OdC(G,normalisation = True):
     if ut.empty_check(G) == True:
         return 0
@@ -49,14 +56,14 @@ def OdC(G,normalisation = True):
             complexity = complexity/(ln(len(G.nodes)-1))
         return complexity
 
-
+#   Calculates ln(x), if x=0, return 0
 def ln(x):
     if x == 0:
         return 0
     else:
         return np.log(x)
     
-
+#   Calculates Cr complexity of a graph
 def Cr(G,normalisation = True):
     if ut.empty_check(G) == True:
         return 0
@@ -78,7 +85,7 @@ def Cr(G,normalisation = True):
         else:
             return r
 
-
+#   Calculates Ce complexity of a graph
 def Ce(G,normalisation = True):
     if not nx.is_connected(G):
         return 0
@@ -102,6 +109,7 @@ def Ce(G,normalisation = True):
         else:
             return E
 
+#   Calculates C_{1e,st} complexity of a graph
 def C1est(G,normalisation = True):
     n = len(G.nodes)
     mcu = n**1.68-10
@@ -123,6 +131,7 @@ def C1est(G,normalisation = True):
     else:
         return (N1est-1)/(mcu-1)
 
+#   Calculates C_{1e.spec} complexity of a graph
 def C1espec(G,normalisation =True):
     subgraphs = ut.subgraph_one_edge_deletion(G)
     spectra = [];spectra_s = []
@@ -150,8 +159,9 @@ def C1espec(G,normalisation =True):
     if normalisation == False:
         return N1espec
     else:
-        return (N1espec)/(mcu)
+        return (N1espec-1)/(mcu-1)
 
+#   Calculates C_{2e,spec} complexity of a graph
 def C2espec(G,normalisation=True):
     n= len(G.nodes)
     remove_edges = []
@@ -202,7 +212,8 @@ def C2espec(G,normalisation=True):
         C2espec = (N2espec - 1)/(math.comb(int(mcu),2))
         return C2espec
 
-
+#   Calculates MA_{g} of a graph
+#   Using function mutual_info and redundancy from utilities to calcualte I and R
 def MAg(G,normalisation = True):
     n = len(G.nodes)
     R = ut.redundancy(G)
@@ -223,8 +234,9 @@ def MAg(G,normalisation = True):
         return MAr * MAi
     else:
         return R*I
-
-def MAri(G,normalisation = True):
+#   Calcualtes MA_{RI} complexity of a graph
+#   Using function mutual_info and redundancy from utilities to calcualte I and R
+def MAri(G,normalisation=True):
     n = len(G.nodes)
     R = ut.redundancy(G)
     I = ut.mutual_info(G)
@@ -232,7 +244,11 @@ def MAri(G,normalisation = True):
     R_c = 2*log(n-1)
     I_p = log(n-1)-log(2)*(n-3)/(n-1)
     I_c = log(n/(n-1))
+    m=len(G.edges)
+    numerator_1 = (R-R_p)
+    numerator_2 = (I-I_c)
+    denominator = 0.25*(log(2*m)-R_p-I_c)**2
     if normalisation == True:
-        return 4 *((R-R_p)/(R_c - R_p))*((I-I_c)/(I_p-I_c))
+        return numerator_1*numerator_2/denominator
     else:
         return R*I
