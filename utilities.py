@@ -71,6 +71,9 @@ def random_networks(n=7,use_all_m = True,sample_number = 50):
                 df["Average_clustering"][count] = nx.average_clustering(temp_graph)
                 df["Average_distance"][count] = nx.average_shortest_path_length(temp_graph)
                 count +=1
+    drop_list = np.linspace(len(graph_list),len(df)-1,len(df)-len(graph_list))
+    df=df.drop(drop_list)
+    df=df.sort_index()
     return graph_list,df
 
 

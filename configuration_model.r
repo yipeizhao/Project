@@ -2,7 +2,8 @@
 library("reticulate")
 library("igraph")
 library("plotly")
-use_python("/zhaoy/anaconda3")
+#fill the file path with your python path
+use_python("/Home/anaconda3/bin")
 
 #function1 return the edges list to build the network in networkx
 #function2 return the graph itself for tespecing in the R environment
@@ -16,6 +17,9 @@ return_graph<- function(series){
 }
 
 #python functions
+#you need to install all packages in the following python package to run the script
+#how to install python packages in R:
+#https://rstudio.github.io/reticulate/articles/python_packages.html
 source_python("R_functions.py")
 
 #Building the network in python
