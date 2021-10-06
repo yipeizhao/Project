@@ -4,12 +4,9 @@ from math import cos,pi,log
 import utilities as ut
 from scipy.linalg import eig
 import math
-
 #   All complexity measure have an optional parameter normalisation
 #   If normalisation = True(set by default), the normalised value will be returned
 #   Otherwise, the unnormalized form will be returned
-
-
 
 #   Calculates OdC Complexity of a graph
 def OdC(G,normalisation = True):
@@ -20,7 +17,6 @@ def OdC(G,normalisation = True):
         degree_sequence = sorted([d for n, d in G.degree()], reverse=True)
         max_degree = max(degree_sequence)
         degree_correlation = np.zeros((max_degree,max_degree))
-        
         #Building the correlation matrix
         for node in list(G.nodes):
             #An array to store all the neighbors degrees
@@ -36,7 +32,6 @@ def OdC(G,normalisation = True):
             for item in neighbors_degree:
                 if node_degree<=item:
                     degree_correlation[node_degree-1,item-1] +=1
-                    
         #Calculating a_k
         a_k=[]
         for i in range(max_degree):
@@ -45,12 +40,10 @@ def OdC(G,normalisation = True):
         if A !=0:
             for i in range(len(a_k)):
                 a_k[i]=a_k[i]/A
-        
         #Calculating the complexity
         complexity = 0
         for item in a_k:
             complexity -= item*ln(item)
-        
         #Normalisation
         if normalisation == True:
             complexity = complexity/(ln(len(G.nodes)-1))
@@ -139,22 +132,18 @@ def C1espec(G,normalisation =True):
     for i in range(len(subgraphs)):
         L = nx.laplacian_matrix(subgraphs[i]).todense()
         A = nx.adjacency_matrix(subgraphs[i]).todense()
-        
         eig_values,_ = eig(L)
         eig_values = eig_values.real
         eig_values = sorted(eig_values)
         eig_values = [round(item,10) for item in eig_values]
-        
         L = L + A + A
         eig_values_s,_ = eig(L)
         eig_values_s = eig_values_s.real
         eig_values_s = sorted(eig_values_s)
         eig_values_s = [round(item,10) for item in eig_values_s]
-        
         if eig_values not in spectra and eig_values_s not in spectra_s:
             spectra.append(eig_values)
             spectra_s.append(eig_values_s)
-        
     N1espec = len(spectra)
     if normalisation == False:
         return N1espec
@@ -170,41 +159,33 @@ def C2espec(G,normalisation=True):
         for item in neighbours:
             if item < i:
                 remove_edges.append([i,item])
-    
-    
     products = []
     for i in range(len(remove_edges)):
         for j in range(i+1,len(remove_edges)):
             products.append([remove_edges[i],remove_edges[j]])
-    
     subgraphs = []
     for item in products:
         temp_G = G.copy()
         temp_G.remove_edge(item[0][0],item[0][1])
         temp_G.remove_edge(item[1][0],item[1][1])
         subgraphs.append(temp_G)
-        
     spectra = [];spectra_s = []
     mcu = len(G.nodes())**1.68-10
     for i in range(len(subgraphs)):
         L = nx.laplacian_matrix(subgraphs[i]).todense()
         A = nx.adjacency_matrix(subgraphs[i]).todense()
-        
         eig_values,_ = eig(L)
         eig_values = eig_values.real
         eig_values = sorted(eig_values)
         eig_values = [round(item,10) for item in eig_values]
-        
         L = L + A + A
         eig_values_s,_ = eig(L)
         eig_values_s = eig_values_s.real
         eig_values_s = sorted(eig_values_s)
         eig_values_s = [round(item,10) for item in eig_values_s]
-        
         if eig_values not in spectra and eig_values_s not in spectra_s:
             spectra.append(eig_values)
             spectra_s.append(eig_values_s)
-            
     N2espec = len(spectra)
     if normalisation == False:
         return N2espec
@@ -228,12 +209,7 @@ def MAg(G,normalisation = True):
         return MAr * MAi
     else:
         return R*I
-    MAr = 4*((R-R_p)/(R_c - R_p))*(1 - (R-R_p)/(R_c-R_p))
-    MAi = 4*((I-I_c)/(I_p-I_c))*(1-(I-I_c)/(I_p-I_c))
-    if normalisation == True:
-        return MAr * MAi
-    else:
-        return R*I
+        
 #   Calcualtes MA_{RI} complexity of a graph
 #   Using function mutual_info and redundancy from utilities to calcualte I and R
 def MAri(G,normalisation=True):

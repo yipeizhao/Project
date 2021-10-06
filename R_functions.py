@@ -1,6 +1,5 @@
 import numpy as np
 import networkx as nx
-import math
 from random import randint
 from math import log
 from scipy.linalg import eig
@@ -71,13 +70,11 @@ def MAri(G,normalisation = True):
         return 4 *((R-R_p)/(R_c - R_p))*((I-I_c)/(I_p-I_c))
     else:
         return R*I
-
 def OdC(G,normalisation = True):
     #Create a degree correlation matrix, using the max degree 
     degree_sequence = sorted([d for n, d in G.degree()], reverse=True)
     max_degree = max(degree_sequence)
     degree_correlation = np.zeros((max_degree,max_degree))
-    
     #Building the correlation matrix
     for node in list(G.nodes):
         #An array to store all the neighbors degrees
@@ -93,7 +90,6 @@ def OdC(G,normalisation = True):
         for item in neighbors_degree:
             if node_degree<=item:
                 degree_correlation[node_degree-1,item-1] +=1
-                
     #Calculating a_k
     a_k=[]
     for i in range(max_degree):
@@ -102,12 +98,10 @@ def OdC(G,normalisation = True):
     if A !=0:
         for i in range(len(a_k)):
             a_k[i]=a_k[i]/A
-    
     #Calculating the complexity
     complexity = 0
     for item in a_k:
         complexity -= item*ln(item)
-    
     #Normalisation
     if normalisation == True:
         complexity = complexity/(ln(len(G.degree)-1))
@@ -118,6 +112,7 @@ def ln(x):
         return 0
     else:
         return np.log(x)
+
 def power_law_series(n,gamma):
     n = int(n)
     sequence = nx.random_powerlaw_tree_sequence(n, gamma,tries=100000)
