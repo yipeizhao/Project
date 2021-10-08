@@ -1,3 +1,4 @@
 {
-    "python.condaPath": "C:\\Users\\zhaoy\\anaconda3\\pythonw.exe"
+    "python.condaPath": "C:\\Users\\zhaoy\\anaconda3\\pythonw.exe",
+    "jupyter.jupyterServerType": "local"
 }
